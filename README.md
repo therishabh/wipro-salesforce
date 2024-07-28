@@ -151,6 +151,81 @@ try {
 ### Question : Schedulable classes: can we do callouts directly from schedulable class or not.
 
 ### Question : Imaging you are processing a batch fo 50000 and you have to seprate the process sucessful and failed record, how you will achieve it.
+**Answer :**<br/>
+Processing large batches of records in Salesforce requires careful handling to ensure that successful and failed records are managed properly. Here’s how you can achieve this when processing a batch of 50,000 records using Batch Apex, with separate handling for successful and failed records:<br/><br/>
+
+**Steps**
+- Define Batch Apex Class: Implement the Database.Batchable interface.
+- Separate Successful and Failed Records: Use collections to keep track of successful and failed records during processing.
+- Handle Results in the Finish Method: Log or process the successful and failed records accordingly.
+
+**Example Batch Apex Class**<br/>
+Here’s a complete example demonstrating how to process 50,000 records, separating successful and failed records: <br/>
+
+```apex
+global class MyBatchClass implements Database.Batchable<SObject>, Database.Stateful {
+    // Lists to keep track of successful and failed records
+    private List<Account> successfulRecords = new List<Account>();
+    private List<Account> failedRecords = new List<Account>();
+    
+    global Database.QueryLocator start(Database.BatchableContext BC) {
+        // Query to fetch the records to be processed
+        return Database.getQueryLocator('SELECT Id, Name FROM Account WHERE ...');
+    }
+
+    global void execute(Database.BatchableContext BC, List<Account> scope) {
+        // Process each batch of records
+        for (Account acc : scope) {
+            try {
+                // Perform some processing (e.g., update the name)
+                acc.Name = acc.Name + ' - Processed';
+                // Add to successful records list
+                successfulRecords.add(acc);
+            } catch (Exception e) {
+                // Add to failed records list with an error message
+                acc.addError('Processing failed: ' + e.getMessage());
+                failedRecords.add(acc);
+            }
+        }
+        
+        // Perform DML operations
+        if (!successfulRecords.isEmpty()) {
+            try {
+                update successfulRecords;
+            } catch (Exception e) {
+                // Handle exception if update fails for any record
+                for (Account acc : successfulRecords) {
+                    acc.addError('Update failed: ' + e.getMessage());
+                    failedRecords.add(acc);
+                }
+            }
+        }
+    }
+
+    global void finish(Database.BatchableContext BC) {
+        // Log successful records
+        for (Account acc : successfulRecords) {
+            System.debug('Successfully processed account: ' + acc.Id);
+        }
+        
+        // Log failed records
+        for (Account acc : failedRecords) {
+            System.debug('Failed to process account: ' + acc.Id + ' - Error: ' + acc.getErrors()[0].getMessage());
+        }
+        
+        // Further handling of failed records (e.g., reprocess, notify admin)
+    }
+}
+
+```
+
+**Explanation**
+- **Stateful Interface:** The **Database.Stateful** interface is used to maintain the state across batch transactions, allowing you to keep track of successful and failed records.
+- **Collections for Successful and Failed Records:** Two lists (successfulRecords and failedRecords) are used to track records that are processed successfully and those that fail during processing.
+- **Try-Catch Blocks:** In the execute method, each record is processed within a try-catch block to handle exceptions individually and categorize the records accordingly.
+- **Error Handling:** Failed records are added to the failedRecords list with an appropriate error message.
+- **Finish Method:** In the finish method, both successful and failed records are logged. You can extend this part to send notifications, write to a custom object, or perform other actions as needed.
+
 
 ### Question : Questions related to field level security.
 
