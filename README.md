@@ -230,6 +230,103 @@ global class MyBatchClass implements Database.Batchable<SObject>, Database.State
 ### Question : Questions related to field level security.
 
 ### Question : Database stateful and stateless (Difference and senario if you faced any)
+https://github.com/therishabh/salesforce-apex/blob/main/README.md#batch-apex
+
+In Salesforce, Batch Apex classes can implement either the `Database.Stateful` or `Database.Batchable` interfaces. Understanding the difference between these two interfaces, as well as when and how to use them, is important for developing efficient and effective batch processes.
+
+### Difference Between Stateful and Stateless
+
+1. **Database.Stateful**:
+    - **Definition**: Implements the `Database.Stateful` interface to maintain state across transaction boundaries.
+    - **Usage**: Use `Database.Stateful` when you need to maintain state information (like aggregate values, collections, etc.) across multiple batch transactions.
+    - **Example**: Tracking processed record IDs, maintaining counters, or aggregating values across all batches.
+
+2. **Database.Batchable** (Stateless):
+    - **Definition**: Implements the `Database.Batchable` interface without the `Database.Stateful` interface, which means it is stateless.
+    - **Usage**: Use `Database.Batchable` when you do not need to maintain state across batch transactions. Each batch transaction is independent and does not share any data with other transactions.
+    - **Example**: Processing records independently where no shared state is required.
+
+### Example Scenario
+
+#### Scenario: Aggregate Calculation Across Batches
+
+Imagine you have a batch process that needs to calculate the total amount of all `Opportunity` records and update a custom field on the `Account` record with the aggregated value. Since this calculation requires maintaining a running total across multiple batches, you would use `Database.Stateful`.
+
+#### Example Stateful Batch Apex Class
+
+```apex
+global class AggregateOpportunitiesBatch implements Database.Batchable<SObject>, Database.Stateful {
+    private Decimal totalAmount = 0; // Maintain state
+
+    global Database.QueryLocator start(Database.BatchableContext BC) {
+        return Database.getQueryLocator('SELECT Amount, AccountId FROM Opportunity WHERE IsClosed = true');
+    }
+
+    global void execute(Database.BatchableContext BC, List<SObject> scope) {
+        for (Opportunity opp : (List<Opportunity>) scope) {
+            totalAmount += opp.Amount;
+        }
+    }
+
+    global void finish(Database.BatchableContext BC) {
+        // Update Accounts with the aggregated totalAmount
+        List<Account> accountsToUpdate = [SELECT Id FROM Account WHERE Id IN (SELECT AccountId FROM Opportunity WHERE IsClosed = true)];
+        for (Account acc : accountsToUpdate) {
+            acc.Total_Opportunity_Amount__c = totalAmount;
+        }
+        update accountsToUpdate;
+        System.debug('Total Opportunity Amount: ' + totalAmount);
+    }
+}
+```
+
+### Example Stateless Batch Apex Class
+
+For a stateless scenario, consider a batch process that updates a field on each `Contact` record independently, such as setting a `Last_Processed__c` date field to the current date.
+
+```apex
+global class UpdateContactsBatch implements Database.Batchable<SObject> {
+    global Database.QueryLocator start(Database.BatchableContext BC) {
+        return Database.getQueryLocator('SELECT Id FROM Contact');
+    }
+
+    global void execute(Database.BatchableContext BC, List<SObject> scope) {
+        for (Contact con : (List<Contact>) scope) {
+            con.Last_Processed__c = System.today();
+        }
+        update scope;
+    }
+
+    global void finish(Database.BatchableContext BC) {
+        System.debug('Contact records updated with the current date.');
+    }
+}
+```
+
+### Summary of Differences and Usage
+
+| Aspect                | Database.Stateful                       | Database.Stateless                          |
+|-----------------------|-----------------------------------------|---------------------------------------------|
+| **State Maintenance** | Maintains state across transactions     | Does not maintain state across transactions |
+| **Use Case**          | Aggregations, counters, accumulating data | Independent record processing               |
+| **Example**           | Aggregating `Opportunity` amounts       | Updating `Contact` fields independently     |
+
+### Scenarios Faced
+
+#### Scenario 1: Aggregation and Counting
+
+**Situation**: I needed to process a large number of records and keep a running count of how many records met certain criteria (e.g., number of closed Opportunities). This required using `Database.Stateful` to maintain the count across multiple batch transactions.
+
+**Implementation**: Using a counter variable in a stateful batch class to maintain the running total and update a summary field on a parent record at the end.
+
+#### Scenario 2: Independent Record Updates
+
+**Situation**: I had to update a specific field on all `Contact` records in the system, and each update was independent of the others (e.g., setting a flag or date field).
+
+**Implementation**: A stateless batch class was used because each `Contact` record was processed independently, and no shared state was required.
+
+By understanding and applying the differences between `Database.Stateful` and `Database.Batchable` (stateless), you can choose the appropriate approach for your batch processing needs, ensuring efficient and effective execution of your Salesforce batch processes.
+
 
 ### Question : How to pass the values from flow to Apex.
 
