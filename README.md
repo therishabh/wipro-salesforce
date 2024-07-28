@@ -42,10 +42,21 @@ Rather than using nested loops, a good strategy is to abstract your logic into s
 
 
 #### 9. Have a Naming Convention
+Naming conventions tend to be a hot topic in any developer team. The benefits are clear if everyone follows them, as they make it easier for other people in your team to understand what’s going on within an org.
 
 #### 10. Avoid Business Logic in Triggers
 
 #### 11. Avoid Returning JSON to Lightning Components
+When we’re writing @AuraEnable methods for our Lightning Components, we frequently need to return more complex data structures, such as records, custom data types, or lists of these types.
+
+An easy approach would be to serialize these objects into JSON, and then deserialize them within our component’s JavaScript (that is what the JS in JSON standards for after all!).
+![image](https://github.com/user-attachments/assets/f624867b-e2a8-43f5-a933-f93a674f89f9)
+
+
+However, this approach is actually an anti-pattern and can lead to some poor performance within our components. Instead, we should be directly returning these objects and letting the platform handle the rest for us.
+![image](https://github.com/user-attachments/assets/c40f9be2-0e5a-4c6c-8b29-6848ca8638c2)
+
+Converting our returned data into JSON results in us consuming large amounts of heap memory and spending many CPU cycles converting these objects into a lovely and long string
 
 
 ### Question : Best practices follwed for triggeres.
