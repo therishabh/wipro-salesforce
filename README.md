@@ -1,12 +1,19 @@
 # Wipro Salesforce interview Questions
 
-### Question : What all asychonous process available in salesforce.
+### Question : What all asynchronous process available in salesforce.
+#### Answer : 
 
-### Question : Expain batch processing
+### Question : Explain batch processing
+#### Answer : 
+https://github.com/therishabh/salesforce-apex/blob/main/README.md#batch-apex
 
 ### Question : Best Practices follwed for apex
+#### Answer : 
+
 
 ### Question : Best practices follwed for triggeres.
+#### Answer : 
+
 
 ### Question : How to connect two systems (Integartion related questions- Connected app,named credentials)
 
