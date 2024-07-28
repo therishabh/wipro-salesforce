@@ -330,6 +330,119 @@ By understanding and applying the differences between `Database.Stateful` and `D
 
 ### Question : How to pass the values from flow to Apex.
 
+https://github.com/therishabh/salesforce-apex/blob/main/README.md#invocable-method
+
+Passing values from a Salesforce Flow to an Apex class involves creating an Apex invocable method that accepts input parameters. These parameters can then be mapped to Flow variables when the Flow is designed. Here is a step-by-step guide on how to achieve this:
+
+### Steps to Pass Values from Flow to Apex Class
+
+1. **Create the Apex Class with an Invocable Method**:
+   - Define an Apex class.
+   - Create an inner class to hold the input parameters.
+   - Annotate the method with `@InvocableMethod`.
+
+2. **Define Input Parameters in the Flow**:
+   - Use the Flow Builder to create variables.
+   - Map these variables to the inputs of the invocable method.
+
+### Example
+
+Let's say you want to pass a contact's first name, last name, and email from a Flow to an Apex class to create a new Contact record.
+
+#### Step 1: Create the Apex Class
+
+```apex
+public class CreateContactFromFlow {
+    
+    // Define an inner class to hold the input parameters
+    public class ContactInput {
+        @InvocableVariable
+        public String firstName;
+        
+        @InvocableVariable
+        public String lastName;
+        
+        @InvocableVariable
+        public String email;
+    }
+    
+    // Define the invocable method
+    @InvocableMethod(label='Create Contact' description='Create a new contact from Flow')
+    public static void createContact(List<ContactInput> inputParams) {
+        List<Contact> contactsToCreate = new List<Contact>();
+        
+        for (ContactInput input : inputParams) {
+            Contact newContact = new Contact(
+                FirstName = input.firstName,
+                LastName = input.lastName,
+                Email = input.email
+            );
+            contactsToCreate.add(newContact);
+        }
+        
+        if (!contactsToCreate.isEmpty()) {
+            insert contactsToCreate;
+        }
+    }
+}
+```
+
+#### Step 2: Create the Flow and Map Variables
+
+1. **Open Flow Builder**: Go to Setup -> Process Automation -> Flows and click "New Flow".
+2. **Select Screen Flow or Auto-launched Flow**: Choose the type of Flow based on your requirements.
+3. **Create Variables**:
+   - Create three variables: `firstName`, `lastName`, and `email`.
+   - Ensure the data types match those expected by the Apex class (`Text` in this case).
+
+4. **Add an Action**:
+   - In the Flow, add an "Action" element.
+   - Search for the "Create Contact" action (the label you defined in the `@InvocableMethod` annotation).
+   - Map the Flow variables to the input parameters of the invocable method.
+
+5. **Finish the Flow**:
+   - Complete the Flow by adding any other necessary elements (e.g., screens, decisions, etc.).
+   - Save and activate the Flow.
+
+### Detailed Steps in Flow Builder
+
+1. **Create Variables**:
+   - Click "Manager" on the left panel.
+   - Click "New Resource" and select "Variable".
+   - Create `firstName`, `lastName`, and `email` variables with `Text` data type.
+
+2. **Add Action Element**:
+   - Drag the "Action" element onto the canvas.
+   - In the Action search box, type "Create Contact".
+   - Select the "Create Contact" action.
+
+3. **Map Flow Variables**:
+   - In the Action configuration, map the Flow variables to the inputs of the invocable method.
+     - `firstName` -> `firstName`
+     - `lastName` -> `lastName`
+     - `email` -> `email`
+
+4. **Complete the Flow**:
+   - Add any other elements as needed.
+   - Connect the elements to define the Flow logic.
+   - Save and activate the Flow.
+
+### Example Flow Configuration
+
+Here's how the Action configuration might look:
+
+- **Label**: Create Contact
+- **API Name**: Create_Contact
+- **Set Input Values**:
+  - `firstName`: {!firstName}
+  - `lastName`: {!lastName}
+  - `email`: {!email}
+
+### Conclusion
+
+By following these steps, you can effectively pass values from a Flow to an Apex class in Salesforce. This approach leverages the power of Flow for user-friendly configuration and the flexibility of Apex for complex business logic.
+
+
 ### Question : Field restriction by apex
 
 ### Question : application event in LWC
