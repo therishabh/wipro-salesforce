@@ -9,6 +9,9 @@ https://github.com/therishabh/salesforce-apex/blob/main/README.md#batch-apex
 
 ### Question : Best Practices follwed for apex
 #### Answer : 
+
+https://www.salesforceben.com/12-salesforce-apex-best-practices/
+
 #### 1. Bulkify Your Code
 Bulkification of your code is the process of making your code able to handle multiple records at a time efficiently.
 #### 2. Avoid DML/SOQL Queries in Loops
@@ -60,12 +63,39 @@ Converting our returned data into JSON results in us consuming large amounts of 
 
 
 ### Question : Best practices follwed for triggeres.
-#### Answer : 
+#### Answer :  
+https://www.pantherschools.com/apex-trigger-best-practices-in-salesforce/
 
+As a developer, to develop effective triggers we can follow the below best practices
+- One trigger per object
+- Logic Less Trigger
+- Context-specific handler methods
+- Avoid SOQL Query inside for loop
+- Avoid hardcoding IDs
+- Avoid nested for loop
+- Avoid DML inside for loop
+- Bulkify Your Code
+- Enforced Sharing in Salesforce
+- Use @future Appropriately
+- Use WHERE Clause in SOQL Query
+- Use Test-Driven Development
 
 ### Question : How to connect two systems (Integartion related questions- Connected app,named credentials)
 
 ### Question : Different types of flows.
+#### Answer :
+
+Salesforce Flows can be classified into five subtypes:
+**Screen Flows**
+Require user interaction and include screens, local actions, steps, choices, or dynamic choices. For example, a customer survey after a support case is completed.
+**Schedule-Triggered Flows**
+Run in the background at a specified time and at a repeated frequency to perform actions on a batch of records. For example, a financial firm might need to generate reports at the end of every financial quarter.
+**Autolaunched Flows**
+Run without user interaction and don't support screens, local actions, choices, or choice sets. They are triggered by a specific event or record update and can automate complicated tasks like sending email notifications, modifying records, or creating new records. For example, when a large opportunity closes, send an alert to the right people on your team.
+**Record-Triggered Flows**
+Run in the background, either before or after a record save. They are triggered when a record is created or updated and can be used to automate processes such as updating related records or sending notifications to users. For example, when a large opportunity closes, send an alert to the right people on your team.
+**Platform Event-Triggered Flows**
+Run when a platform event message is received.
 
 ### Question : What is the maximum number of records that can be processed by a trigger?
 
