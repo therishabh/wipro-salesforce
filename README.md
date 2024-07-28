@@ -449,6 +449,8 @@ By following these steps, you can effectively pass values from a Flow to an Apex
 
 ### Question : life cycle of LWC
 
+https://github.com/therishabh/salesforce-lwc?tab=readme-ov-file#lifecycle-hooks
+
 ### Question : Named credential
 
 ### Question :
