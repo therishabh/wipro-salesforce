@@ -98,12 +98,24 @@ Run in the background, either before or after a record save. They are triggered 
 Run when a platform event message is received.<br/><br/>
 
 ### Question : What is the maximum number of records that can be processed by a trigger?
+#### Answer :
+**A trigger can process a maximum of 200 records at a time.**<br/><br/>
+
+However, if you're dealing with a larger number of records, Salesforce will automatically break down the process into chunks of 200. For example, if you have 1000 records to process, the trigger will be called 5 times, each time handling 200 records.<br/><br/>
+
+Additional Notes:<br/>
+Platform Event triggers can handle up to 2000 records per chunk, which is different from standard object triggers.<br/><br/>
 
 ### Question : Context variables in triggers
+#### Answer :
+
+https://github.com/therishabh/salesforce-apex/blob/main/README.md#trigger-context-variables
 
 ### Question : Types of Events in AURA
+#### Answer :
 
 ### Question : Future method and Quable methods (Limitation, which senario you will go for future menthod)
+#### Answer :
 
 ### Question : How to set field level security in Apex (WITH SECURITY_ENFORCED)?
 
