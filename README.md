@@ -81,6 +81,10 @@ As a developer, to develop effective triggers we can follow the below best pract
 - Use Test-Driven Development
 
 ### Question : How to connect two systems (Integartion related questions- Connected app,named credentials)
+#### Answer :
+
+https://github.com/therishabh/salesforce-apex/blob/main/README.md#integration-in-salesforce
+
 
 ### Question : Different types of flows.
 #### Answer :
@@ -118,6 +122,27 @@ https://github.com/therishabh/salesforce-apex/blob/main/README.md#trigger-contex
 #### Answer :
 
 ### Question : How to set field level security in Apex (WITH SECURITY_ENFORCED)?
+#### Answer :
+
+Setting field-level security in Apex ensures that your code respects the field-level security settings configured in Salesforce. Using the **WITH SECURITY_ENFORCED** keyword in SOQL queries is one way to enforce field-level security checks. Here's how you can use it:<br/><br/>
+
+**Enforcing Field-Level Security with WITH SECURITY_ENFORCED**<br/>
+When you add WITH SECURITY_ENFORCED to your SOQL queries, Salesforce will automatically enforce field- and object-level security checks. If a user does not have access to a field or object, the query will fail, ensuring that your code does not inadvertently expose restricted data.<br/><br/>
+
+**Example Usage**<br/>
+Here's an example of how to use WITH SECURITY_ENFORCED in a SOQL query:<br/>
+
+```apex
+try {
+    List<Account> accounts = [SELECT Id, Name, Phone FROM Account WITH SECURITY_ENFORCED WHERE IsActive = true];
+    // Process the accounts
+    for (Account acc : accounts) {
+        System.debug('Account Name: ' + acc.Name);
+    }
+} catch (Exception e) {
+    System.debug('Insufficient permissions: ' + e.getMessage());
+}
+```
 
 ### Question : Best Practices for flows (Avoid hard code values, mixed DMLs, Avoid DML statements inside Loop, Error handling etc).
 
