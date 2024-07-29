@@ -2,10 +2,14 @@
 
 ### Question : What all asynchronous process available in salesforce.
 #### Answer : 
---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+
 ### Question : Explain batch processing
 #### Answer : 
 https://github.com/therishabh/salesforce-apex/blob/main/README.md#batch-apex
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
 
 ### Question : Best Practices follwed for apex
 #### Answer : 
@@ -61,6 +65,7 @@ However, this approach is actually an anti-pattern and can lead to some poor per
 
 Converting our returned data into JSON results in us consuming large amounts of heap memory and spending many CPU cycles converting these objects into a lovely and long string
 
+-----------------------------------------------------------------------------------------------------------------------------------------------
 
 ### Question : Best practices follwed for triggeres.
 #### Answer :  
@@ -80,11 +85,14 @@ As a developer, to develop effective triggers we can follow the below best pract
 - Use WHERE Clause in SOQL Query
 - Use Test-Driven Development
 
+-----------------------------------------------------------------------------------------------------------------------------------------------
+
 ### Question : How to connect two systems (Integartion related questions- Connected app,named credentials)
 #### Answer :
 
 https://github.com/therishabh/salesforce-apex/blob/main/README.md#integration-in-salesforce
 
+-----------------------------------------------------------------------------------------------------------------------------------------------
 
 ### Question : Different types of flows.
 #### Answer :
@@ -101,6 +109,8 @@ Run in the background, either before or after a record save. They are triggered 
 **Platform Event-Triggered Flows**<br/>
 Run when a platform event message is received.<br/><br/>
 
+-----------------------------------------------------------------------------------------------------------------------------------------------
+
 ### Question : What is the maximum number of records that can be processed by a trigger?
 #### Answer :
 **A trigger can process a maximum of 200 records at a time.**<br/><br/>
@@ -110,16 +120,24 @@ However, if you're dealing with a larger number of records, Salesforce will auto
 Additional Notes:<br/>
 Platform Event triggers can handle up to 2000 records per chunk, which is different from standard object triggers.<br/><br/>
 
+-----------------------------------------------------------------------------------------------------------------------------------------------
+
 ### Question : Context variables in triggers
 #### Answer :
 
 https://github.com/therishabh/salesforce-apex/blob/main/README.md#trigger-context-variables
 
+-----------------------------------------------------------------------------------------------------------------------------------------------
+
 ### Question : Types of Events in AURA
 #### Answer :
 
+-----------------------------------------------------------------------------------------------------------------------------------------------
+
 ### Question : Future method and Quable methods (Limitation, which senario you will go for future menthod)
 #### Answer :
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
 
 ### Question : How to set field level security in Apex (WITH SECURITY_ENFORCED)?
 #### Answer :
@@ -144,14 +162,25 @@ try {
 }
 ```
 
+-----------------------------------------------------------------------------------------------------------------------------------------------
+
 ### Question : Best Practices for flows (Avoid hard code values, mixed DMLs, Avoid DML statements inside Loop, Error handling etc).
+#### Answer :
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
 
 ### Question : Mixed DML exception(Future method)
+#### Answer :
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
 
 ### Question : Schedulable classes: can we do callouts directly from schedulable class or not.
+#### Answer :
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
 
 ### Question : Imaging you are processing a batch fo 50000 and you have to seprate the process sucessful and failed record, how you will achieve it.
-**Answer :**<br/>
+#### Answer : 
 Processing large batches of records in Salesforce requires careful handling to ensure that successful and failed records are managed properly. Here’s how you can achieve this when processing a batch of 50,000 records using Batch Apex, with separate handling for successful and failed records:<br/><br/>
 
 **Steps**
@@ -226,10 +255,15 @@ global class MyBatchClass implements Database.Batchable<SObject>, Database.State
 - **Error Handling:** Failed records are added to the failedRecords list with an appropriate error message.
 - **Finish Method:** In the finish method, both successful and failed records are logged. You can extend this part to send notifications, write to a custom object, or perform other actions as needed.
 
+-----------------------------------------------------------------------------------------------------------------------------------------------
 
 ### Question : Questions related to field level security.
+#### Answer : 
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
 
 ### Question : Database stateful and stateless (Difference and senario if you faced any)
+#### Answer : 
 https://github.com/therishabh/salesforce-apex/blob/main/README.md#batch-apex
 
 In Salesforce, Batch Apex classes can implement either the `Database.Stateful` or `Database.Batchable` interfaces. Understanding the difference between these two interfaces, as well as when and how to use them, is important for developing efficient and effective batch processes.
@@ -327,9 +361,10 @@ global class UpdateContactsBatch implements Database.Batchable<SObject> {
 
 By understanding and applying the differences between `Database.Stateful` and `Database.Batchable` (stateless), you can choose the appropriate approach for your batch processing needs, ensuring efficient and effective execution of your Salesforce batch processes.
 
+-----------------------------------------------------------------------------------------------------------------------------------------------
 
 ### Question : How to pass the values from flow to Apex.
-
+#### Answer : 
 https://github.com/therishabh/salesforce-apex/blob/main/README.md#invocable-method
 
 Passing values from a Salesforce Flow to an Apex class involves creating an Apex invocable method that accepts input parameters. These parameters can then be mapped to Flow variables when the Flow is designed. Here is a step-by-step guide on how to achieve this:
@@ -442,19 +477,31 @@ Here's how the Action configuration might look:
 
 By following these steps, you can effectively pass values from a Flow to an Apex class in Salesforce. This approach leverages the power of Flow for user-friendly configuration and the flexibility of Apex for complex business logic.
 
+-----------------------------------------------------------------------------------------------------------------------------------------------
 
 ### Question : Field restriction by apex
+#### Answer : 
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
 
 ### Question : application event in LWC
+#### Answer : 
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
 
 ### Question : life cycle of LWC
-
+#### Answer : 
 https://github.com/therishabh/salesforce-lwc?tab=readme-ov-file#lifecycle-hooks
 
+-----------------------------------------------------------------------------------------------------------------------------------------------
+
 ### Question : Named credential
+#### Answer : 
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
 
 ### Question : Mixed DML exception
-#### Answer : 
+
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
 ### Question : Open Id connect for integration
