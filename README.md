@@ -404,8 +404,10 @@ global class SampleScheduler implements Schedulable{
 }
 ```
 <br/>
-**Future Class Method** </br>
+Future Class Method</br>
+
 ```apex
+
 public class BatchUtilClass {
     @future(callout=true)
     public static void futureMethodSample() {
@@ -425,6 +427,7 @@ public class BatchUtilClass {
         }
     }
 }
+
 ```
 https://www.apexhours.com/system-calloutexception-callout-from-scheduled-apex-not-supported/
 
@@ -510,6 +513,8 @@ global class MyBatchClass implements Database.Batchable<SObject>, Database.State
 
 ## Question : Questions related to field level security.
 #### Answer : 
+
+Field-Level Security (FLS) determines whether a user can view or edit the data in a specific field on an object. It is a key component of Salesforce’s security model and is applied to profiles and permission sets to control access to sensitive data.
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
