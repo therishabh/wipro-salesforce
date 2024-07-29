@@ -9,7 +9,6 @@ Question : How to connect two systems (Integartion related questions- Connected 
 Question : Different types of flows.<br/>
 Question : What is the maximum number of records that can be processed by a trigger?<br/>
 Question : Context variables in triggers<br/>
-Question : Types of Events in AURA<br/>
 Question : Future method and Quable methods (Limitation, which senario you will go for future menthod)<br/>
 Question : How to set field level security in Apex (WITH SECURITY_ENFORCED)?<br/>
 Question : Best Practices for flows (Avoid hard code values, mixed DMLs, Avoid DML statements inside Loop, Error handling etc).<br/>
@@ -73,6 +72,7 @@ Question : PMD violations<br/>
 Question : Devops process<br/>
 Question : Imperative apex<br/>
 Question : Difference between aura and LWC component<br/>
+Question : Types of Events in AURA<br/>
 
 
 
@@ -317,13 +317,10 @@ https://github.com/therishabh/salesforce-apex/blob/main/README.md#trigger-contex
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-## Question : Types of Events in AURA
-#### Answer :
-
------------------------------------------------------------------------------------------------------------------------------------------------
-
 ## Question : Future method and Quable methods (Limitation, which senario you will go for future menthod)
 #### Answer :
+
+https://github.com/therishabh/salesforce-apex/blob/main/README.md#asynchronous-processing-basics
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -354,16 +351,82 @@ try {
 
 ## Question : Best Practices for flows (Avoid hard code values, mixed DMLs, Avoid DML statements inside Loop, Error handling etc).
 #### Answer :
+https://www.salesforceben.com/salesforce-flow-best-practices/
+
+Here are the best Salesforce Flow practices I regularly follow when developing my flows.
+1. Always Test Your Flows
+2. Consider Using Subflows
+3. Never Perform DML Statements in Loops
+4. Document Your Flows
+5. Never Hard Code Ids (Use Constants if You Must)
+6. Plan for Faults (and Handle Them)
+7. Make Use of Schedule-Triggered Flow and Asynchronous Paths
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-## Question : Mixed DML exception(Future method)
-#### Answer :
+## Question : Mixed DML exception (Future method)
+#### Answer : 
+https://github.com/therishabh/salesforce-apex/blob/main/README.md#future-method-in-apex
+</br></br>
+A mixed DML Operation Error comes when you try to perform DML operations on setup and non-setup objects in a single transaction. </br></br>
+
+Setup objects are the sObjects that affect the user’s access to records in the organization. Here are examples of the Setup Objects:</br>
+
+1. ObjectPermissions
+2. PermissionSet
+3. PermissionSetAssignment
+4. QueueSObject
+5. Territory
+6. UserTerritory
+7. UserRole
+8. User
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
 ## Question : Schedulable classes: can we do callouts directly from schedulable class or not.
 #### Answer :
+
+**Salesforce does not allow us to make callouts from Schedulable classes** </br>
+
+We used to get **“System.CalloutException: Callout from scheduled Apex not supported”** Error when we are making a web service callout from a class which is implementing Database.Schedulable interface because Salesforce does not allow us to make callouts from Schedulable classes. </br></br>
+
+@future method : A future runs as asynchronously. You can call a future method for executing long-running operations, such as callouts to external Web services or any operation you’d like to run in its own thread, on its own time </br>
+
+**Scheduler Class** </br>
+```apex
+global class SampleScheduler implements Schedulable{
+    
+    global void execute(SchedulableContext sc) 
+    {        
+ 
+      BatchUtilClass.futureMethodSample();
+    }    
+}
+```
+<br/>
+**Future Class Method** </br>
+```apex
+public class BatchUtilClass {
+    @future(callout=true)
+    public static void futureMethodSample() {
+        Http http = new Http();
+        HttpRequest request = new HttpRequest();
+        request.setEndpoint('https://th-apex-http-callout.herokuapp.com/animals');
+        request.setMethod('GET');
+        HttpResponse response = http.send(request);
+
+        if (response.getStatusCode() == 200) {
+            Map<String, Object> results = (Map<String, Object>) JSON.deserializeUntyped(response.getBody());
+            List<Object> animals = (List<Object>) results.get('animals');
+            System.debug('Received the following animals:');
+            for (Object animal: animals) {
+                System.debug(animal);
+            }
+        }
+    }
+}
+```
+https://www.apexhours.com/system-calloutexception-callout-from-scheduled-apex-not-supported/
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -978,4 +1041,8 @@ As per the governor limit, the Total number of SOQL queries issued is 100 in Syn
 #### Answer : 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
+## Question : Types of Events in AURA
+#### Answer :
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
 
