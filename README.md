@@ -1221,10 +1221,117 @@ undelete existingObject;
 
 ## Question : Composite request
 #### Answer : 
+A Composite Request enables you to bundle multiple REST API requests into a single HTTP call. This is helpful for operations that involve creating, updating, or querying multiple records simultaneously. It helps to:
+
+- **Reduce API Call Counts**: Minimize the number of API calls by sending a single composite request instead of multiple individual requests.
+- **Improve Efficiency**: Decrease network latency and improve performance by batching operations.
+- **Handle Complex Transactions**: Perform complex transactions and maintain data consistency by processing multiple related operations together.
+
+#### Why Composite Resources
+Lets understand the advantage of composite API.
+
+- Multiple REST API calls for single call
+- Processing speed can be made faster by collating the subrequests.
+- Improves the performance of the application
+- No additional coding required at Salesforce.
+- Single call toward API limits.
+- Synchronous responses.
+- Multiple ways in composite resources work.
+- Upsert upto five levels deep relationships.
+- Flexible on upserting related or non related records.
+- Can do a GET subrequest and the result can be input to next POST subrequest.
+- Can handle more complicated and related objects and data.
+
+
+Sample Request and URL.
+
+URL : `/services/data/vXX.X/composite`
+
+**Request Body sample.**
+
+```apex
+{
+"compositeRequest" : [
+  {
+  "method" : "POST",
+  "url" : "/services/data/v52.0/sobjects/Account",
+  "referenceId" : "refAccount",
+  "body" : { "Name" : "APEX HOURS" }
+  },
+  {
+  "method" : "POST",
+  "url" : "/services/data/v52.0/sobjects/Contact",
+  "referenceId" : "refContact",
+  "body" : { 
+    "LastName" : "AMIT CHAUDHARY",
+    "AccountId" : "@{refAccount.id}"
+    }
+  }]
+}
+```
+
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
 ## Question : Component event and application event difference
 #### Answer : 
+### Component Events in LWC
+
+**Component Events** in LWC are used for communication between components that have a parent-child relationship. These events are specifically designed to facilitate interaction within a component hierarchy.
+
+#### Example
+
+**Child Component (childComponent.html)**
+```html
+<template>
+    <lightning-button label="Click Me" onclick={handleClick}></lightning-button>
+</template>
+```
+
+**Child Component (childComponent.js)**
+```js
+import { LightningElement } from 'lwc';
+
+export default class ChildComponent extends LightningElement {
+    handleClick() {
+        // Create and dispatch a custom event
+        const event = new CustomEvent('myevent', {
+            detail: { message: 'Hello from child' }
+        });
+        this.dispatchEvent(event);
+    }
+}
+```
+
+**Parent Component (parentComponent.html)**
+```html
+<template>
+    <c-child-component onmyevent={handleChildEvent}></c-child-component>
+</template>
+```
+
+**Parent Component (parentComponent.js)**
+```js
+import { LightningElement } from 'lwc';
+
+export default class ParentComponent extends LightningElement {
+    handleChildEvent(event) {
+        // Handle the event from the child component
+        const message = event.detail.message;
+        console.log(message); // Outputs: Hello from child
+    }
+}
+```
+
+### Application Events in LWC
+
+**Application Events** in LWC are not a part of the framework like in Aura components. LWC uses a different approach for global communication. Instead of application events, LWC relies on other methods such as:
+
+1. **Pub/Sub (Publish/Subscribe) Model**: For cross-component communication that is not tied to a parent-child relationship. This pattern is typically managed using a custom event bus or a pub/sub library.
+
+2. **Lightning Message Service (LMS)**: For inter-component communication within the Lightning Experience and Salesforce mobile app. LMS enables message passing across different components, even if they are not in a direct parent-child relationship.
+
+https://github.com/therishabh/salesforce-lwc?tab=readme-ov-file#component-communication
+
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
 ## Question : What is LDS(Lightning Data Services) in lwc
