@@ -517,8 +517,69 @@ https://github.com/therishabh/salesforce-lwc?tab=readme-ov-file#lifecycle-hooks
 #### Answer : 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-### Question : LDS
+### Question : What is LDS(Lightning Data Services) in lwc
 #### Answer : 
+Lightning Data Service (LDS) is a powerful tool provided by Salesforce that allows Lightning Web Components (LWC) to interact with Salesforce data without the need for Apex code. It operates on the client-side and offers several key features that streamline data retrieval and management within LWC.
+
+One of the key benefits of LDS is its client-side caching mechanism. When a component fetches data using LDS, the data is cached locally in the browser’s memory. Subsequent requests for the same data within the same session can be served from the cache, eliminating the need for additional server round trips. This improves performance and responsiveness of the application, especially in scenarios where the same data is accessed frequently.
+
+**Benefits Over Traditional Apex Data Queries:** </br>
+Compared to traditional Apex data queries, LDS offers several advantages:</br></br>
+
+**`Reduced Server Load`:** Since data is fetched and cached on the client side, LDS reduces the load on the Salesforce server by minimizing the number of server requests.</br></br>
+**`Faster Response Times`:** With client-side caching, LDS can serve data more quickly, leading to faster response times and improved user experience.</br></br>
+**`Enhanced Offline Support`:** LDS supports offline data access, allowing components to continue functioning even when the user is offline or experiencing connectivity issues.</br></br>
+**`Automatic Record Updates`:** LDS automatically detects changes to records and updates the local cache accordingly, ensuring that components always have access to the latest data without manual refreshing.</br></br>
+**Example:**</br>
+Let’s consider an example where we have a Lightning Web Component that displays a list of accounts using LDS.</br></br>
+
+```html
+<!-- accountsList.html -->
+<template>
+    <lightning-card title="Accounts List">
+        <template if:true={accounts}>
+            <ul>
+                <template for:each={accounts} for:item="account">
+                    <li key={account.Id}>{account.Name}</li>
+                </template>
+            </ul>
+        </template>
+        <template if:false={accounts}>
+            No accounts found.
+        </template>
+    </lightning-card>
+</template>
+```
+
+```apex
+// accountsList.js
+import { LightningElement, wire } from 'lwc';
+import { getListUi } from 'lightning/uiListApi';
+import ACCOUNT_OBJECT from '@salesforce/schema/Account';
+ 
+export default class AccountsList extends LightningElement {
+    @wire(getListUi, { objectApiName: ACCOUNT_OBJECT, listViewApiName: 'All' })
+    wiredAccounts({ error, data }) {
+        if (data) {
+            this.accounts = data.records.records;
+        } else if (error) {
+            console.error(error);
+        }
+    }
+}
+```
+
+**Output:** </br>
+![image](https://github.com/user-attachments/assets/5eeddd32-4c94-48b8-ab12-1d169373d023)
+
+In this example, we use the `getListUi` wire adapter from `lightning/uiListApi` to fetch a list of accounts. The result is automatically cached by LDS, and subsequent requests for the same data will be served from the cache, resulting in improved performance and responsiveness.</br></br>
+
+The base component of Lightning Data Service are</br>
+
+`lightning-record-edit-form` — Displays an editable form.</br>
+`lightning-record-view-form` — Displays a read-only form.</br>
+`lightning-record-form` — Supports edit, view, and read-only modes.</br>
+
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
 ### Question : SOQL 101 Exception
