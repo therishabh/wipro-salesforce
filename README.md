@@ -975,6 +975,8 @@ Future methods also allow asynchronous processing but are less flexible than Que
 
 ## Question : About recursive triggers
 #### Answer : 
+https://github.com/therishabh/salesforce-apex/blob/main/README.md#how-to-avoid-recursion-in-trigger
+
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
 ## Question : Reason for bulkification of your code
@@ -984,6 +986,122 @@ Future methods also allow asynchronous processing but are less flexible than Que
 
 ## Question : Database operation and syntax
 #### Answer : 
+
+
+### 1. **SOQL (Salesforce Object Query Language)**
+
+SOQL is used to query Salesforce data. It’s similar to SQL (Structured Query Language) but is tailored for the Salesforce data model.
+
+**Basic Syntax**
+
+```sql
+SELECT field1, field2 FROM ObjectName WHERE condition
+```
+
+**Examples**
+
+1. **Query Records**
+
+   ```apex
+   // Query to select all Account records with a specific name
+   List<Account> accounts = [SELECT Id, Name FROM Account WHERE Name = 'Acme Corp'];
+   ```
+
+2. **Query with Multiple Conditions**
+
+   ```apex
+   // Query to select contacts with a specific last name and account
+   List<Contact> contacts = [SELECT Id, FirstName, LastName FROM Contact WHERE LastName = 'Smith' AND Account.Name = 'Acme Corp'];
+   ```
+
+3. **Query with Relationships**
+
+   ```apex
+   // Query to select accounts and related contacts
+   List<Account> accountsWithContacts = [SELECT Id, Name, (SELECT Id, FirstName, LastName FROM Contacts) FROM Account];
+   ```
+
+### 2. **SOSL (Salesforce Object Search Language)**
+
+SOSL is used for text searches across multiple objects and fields.
+
+**Basic Syntax**
+
+```sql
+FIND {searchQuery} IN {RETURNING object1(field1, field2), object2(field1, field2)}
+```
+
+**Examples**
+
+1. **Search Across Objects**
+
+   ```apex
+   // Search for 'Acme' across Account and Contact objects
+   List<List<SObject>> searchResults = [FIND 'Acme' IN ALL FIELDS RETURNING Account(Id, Name), Contact(Id, FirstName, LastName)];
+   ```
+
+2. **Search with Specific Fields**
+
+   ```apex
+   // Search for 'Smith' in the LastName field of Contact
+   List<Contact> contacts = [FIND 'Smith' IN NAME RETURNING Contact(Id, FirstName, LastName)];
+   ```
+
+### 3. **DML Operations**
+
+DML operations are used to manipulate data, including inserting, updating, deleting, and undeleting records.
+
+**Syntax**
+
+```apex
+// Insert
+insert newObject;
+
+// Update
+update existingObject;
+
+// Delete
+delete existingObject;
+
+// Undelete
+undelete existingObject;
+```
+
+**Examples**
+
+1. **Insert Records**
+
+   ```apex
+   // Create a new account and insert it
+   Account newAccount = new Account(Name = 'Acme Corp');
+   insert newAccount;
+   ```
+
+2. **Update Records**
+
+   ```apex
+   // Update an existing account
+   Account existingAccount = [SELECT Id, Name FROM Account WHERE Name = 'Acme Corp' LIMIT 1];
+   existingAccount.Name = 'Acme Corporation';
+   update existingAccount;
+   ```
+
+3. **Delete Records**
+
+   ```apex
+   // Delete an existing account
+   Account accountToDelete = [SELECT Id FROM Account WHERE Name = 'Acme Corporation' LIMIT 1];
+   delete accountToDelete;
+   ```
+
+4. **Undelete Records**
+
+   ```apex
+   // Undelete a record from the Recycle Bin
+   Account accountToUndelete = [SELECT Id FROM Account WHERE Name = 'Acme Corporation' LIMIT 1 ALL ROWS];
+   undelete accountToUndelete;
+   ```
+
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
 ## Question : What are public component in LWC
