@@ -1205,18 +1205,37 @@ undelete existingObject;
 
 ## Question : Types of decorators in LWC
 #### Answer : 
+There are three type of Decorators in Lightning web components.
+
+- Api
+- Track
+- Wire
+
+https://www.apexhours.com/decorators-in-lightning-web-component/
+
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
 ## Question : Difference between, trigger.old and Trigger.oldmap
 #### Answer : 
+**Trigger.old:** Returns a list of the old versions of the sObject records. Trigger.old should return a type ofList<sObject__c>.Note that this sObject list is only available in the update and delete triggers.
+<br/><br/>
+**Trigger.oldMap:** A map of IDs to the old versions of the sObject records. Trigger.oldMap should return a type of Map<Id, sObject__c>.Note that this map is only available in the update and delete triggers.
+
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
 ## Question : Not using @future annotation in webservices callout, what will happen
 #### Answer : 
+In Salesforce, the `@future` annotation is used to execute methods asynchronously. This can be useful for operations that need to run in the background and do not require immediate results, such as making callouts to external web services. However, if you do not use the `@future` annotation for web service callouts and instead make a synchronous callout from within the same execution context, there are several considerations and potential issues:
+
+##### Key Points and Consequences of Not Using `@future` for Web Service Callouts
+
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
 ## Question : How can you implement recursive trigger in salesforce
 #### Answer : 
+
+https://github.com/therishabh/salesforce-apex/blob/main/README.md#how-to-avoid-recursion-in-trigger
+
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
 ## Question : Composite request
