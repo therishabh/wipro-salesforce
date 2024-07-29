@@ -26,10 +26,9 @@ Question : Mixed DML exception<br/>
 Question : Open Id connect for integration<br/>
 Question : Calling one batch to another batch<br/>
 Question : Is there a way to callout triggers<br/>
-Question : About recursive triggers<br/>
-Question : Reason for bulkification of your code<br/>
-Question : Field level permission thru org level<br/>
-Question : Database operation and syntax<br/>
+[Question : About recursive triggers](#question--about-recursive-triggers)<br/>
+[Question : Reason for bulkification of your code]()#question--reason-for-bulkification-of-your-code<br/>
+[Question : Database operation and syntax](#question--database-operation-and-syntax)<br/>
 Question : What are public component in LWC<br/>
 Question : Types of decorators in LWC<br/>
 Question : Difference between, trigger.old and Trigger.oldmap<br/>
