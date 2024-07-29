@@ -1,6 +1,6 @@
 # Wipro Salesforce interview Questions
 
-### Question : What all asynchronous process available in salesforce.
+## Question : What all asynchronous process available in salesforce.
 #### Answer : 
 Salesforce provides several asynchronous processing options to handle operations that require large volumes of data, complex processing, or tasks that should not be performed in a synchronous transaction. Here's a comprehensive list of asynchronous processes available in Salesforce:
 
@@ -115,13 +115,13 @@ public class RestCalloutExample {
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-### Question : Explain batch processing
+## Question : Explain batch processing
 #### Answer : 
 https://github.com/therishabh/salesforce-apex/blob/main/README.md#batch-apex
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-### Question : Best Practices follwed for apex
+## Question : Best Practices follwed for apex
 #### Answer : 
 
 https://www.salesforceben.com/12-salesforce-apex-best-practices/
@@ -177,7 +177,7 @@ Converting our returned data into JSON results in us consuming large amounts of 
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-### Question : Best practices follwed for triggeres.
+## Question : Best practices follwed for triggeres.
 #### Answer :  
 https://www.pantherschools.com/apex-trigger-best-practices-in-salesforce/
 
@@ -197,14 +197,14 @@ As a developer, to develop effective triggers we can follow the below best pract
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-### Question : How to connect two systems (Integartion related questions- Connected app,named credentials)
+## Question : How to connect two systems (Integartion related questions- Connected app,named credentials)
 #### Answer :
 
 https://github.com/therishabh/salesforce-apex/blob/main/README.md#integration-in-salesforce
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-### Question : Different types of flows.
+## Question : Different types of flows.
 #### Answer :
 
 Salesforce Flows can be classified into five subtypes: <br/><br/>
@@ -221,7 +221,7 @@ Run when a platform event message is received.<br/><br/>
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-### Question : What is the maximum number of records that can be processed by a trigger?
+## Question : What is the maximum number of records that can be processed by a trigger?
 #### Answer :
 **A trigger can process a maximum of 200 records at a time.**<br/><br/>
 
@@ -232,24 +232,24 @@ Platform Event triggers can handle up to 2000 records per chunk, which is differ
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-### Question : Context variables in triggers
+## Question : Context variables in triggers
 #### Answer :
 
 https://github.com/therishabh/salesforce-apex/blob/main/README.md#trigger-context-variables
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-### Question : Types of Events in AURA
+## Question : Types of Events in AURA
 #### Answer :
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-### Question : Future method and Quable methods (Limitation, which senario you will go for future menthod)
+## Question : Future method and Quable methods (Limitation, which senario you will go for future menthod)
 #### Answer :
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-### Question : How to set field level security in Apex (WITH SECURITY_ENFORCED)?
+## Question : How to set field level security in Apex (WITH SECURITY_ENFORCED)?
 #### Answer :
 
 Setting field-level security in Apex ensures that your code respects the field-level security settings configured in Salesforce. Using the **WITH SECURITY_ENFORCED** keyword in SOQL queries is one way to enforce field-level security checks. Here's how you can use it:<br/><br/>
@@ -274,22 +274,22 @@ try {
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-### Question : Best Practices for flows (Avoid hard code values, mixed DMLs, Avoid DML statements inside Loop, Error handling etc).
+## Question : Best Practices for flows (Avoid hard code values, mixed DMLs, Avoid DML statements inside Loop, Error handling etc).
 #### Answer :
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-### Question : Mixed DML exception(Future method)
+## Question : Mixed DML exception(Future method)
 #### Answer :
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-### Question : Schedulable classes: can we do callouts directly from schedulable class or not.
+## Question : Schedulable classes: can we do callouts directly from schedulable class or not.
 #### Answer :
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-### Question : Imaging you are processing a batch fo 50000 and you have to seprate the process sucessful and failed record, how you will achieve it.
+## Question : Imaging you are processing a batch fo 50000 and you have to seprate the process sucessful and failed record, how you will achieve it.
 #### Answer : 
 Processing large batches of records in Salesforce requires careful handling to ensure that successful and failed records are managed properly. Here’s how you can achieve this when processing a batch of 50,000 records using Batch Apex, with separate handling for successful and failed records:<br/><br/>
 
@@ -367,12 +367,12 @@ global class MyBatchClass implements Database.Batchable<SObject>, Database.State
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-### Question : Questions related to field level security.
+## Question : Questions related to field level security.
 #### Answer : 
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-### Question : Database stateful and stateless (Difference and senario if you faced any)
+## Question : Database stateful and stateless (Difference and senario if you faced any)
 #### Answer : 
 https://github.com/therishabh/salesforce-apex/blob/main/README.md#batch-apex
 
@@ -473,7 +473,7 @@ By understanding and applying the differences between `Database.Stateful` and `D
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-### Question : How to pass the values from flow to Apex.
+## Question : How to pass the values from flow to Apex.
 #### Answer : 
 https://github.com/therishabh/salesforce-apex/blob/main/README.md#invocable-method
 
@@ -589,92 +589,92 @@ By following these steps, you can effectively pass values from a Flow to an Apex
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-### Question : Field restriction by apex
+## Question : Field restriction by apex
 #### Answer : 
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-### Question : application event in LWC
+## Question : application event in LWC
 #### Answer : 
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-### Question : life cycle of LWC
+## Question : life cycle of LWC
 #### Answer : 
 https://github.com/therishabh/salesforce-lwc?tab=readme-ov-file#lifecycle-hooks
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-### Question : Named credential
+## Question : Named credential
 #### Answer : 
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-### Question : Mixed DML exception
+## Question : Mixed DML exception
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-### Question : Open Id connect for integration
+## Question : Open Id connect for integration
 #### Answer : 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-### Question : Calling one batch to another batch
+## Question : Calling one batch to another batch
 #### Answer : 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-### Question : What are context variables in triggers
+## Question : What are context variables in triggers
 #### Answer : 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-### Question : Is there a way to callout triggers
+## Question : Is there a way to callout triggers
 #### Answer : 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-### Question : About recursive triggers
+## Question : About recursive triggers
 #### Answer : 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-### Question : Reason for bulkification of your code
+## Question : Reason for bulkification of your code
 #### Answer : 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-### Question : Field level permission thru org level
+## Question : Field level permission thru org level
 #### Answer : 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-### Question : Database operation and syntax
+## Question : Database operation and syntax
 #### Answer : 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-### Question : What are public component in LWC
+## Question : What are public component in LWC
 #### Answer : 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-### Question : Types of decorators in LWC
+## Question : Types of decorators in LWC
 #### Answer : 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-### Question : Difference between, trigger.old and Trigger.oldmap
+## Question : Difference between, trigger.old and Trigger.oldmap
 #### Answer : 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-### Question : Not using @future annotation in webservices callout, what will happen
+## Question : Not using @future annotation in webservices callout, what will happen
 #### Answer : 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-### Question : How can you implement recursive trigger in salesforce
+## Question : How can you implement recursive trigger in salesforce
 #### Answer : 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-### Question : Composite request
+## Question : Composite request
 #### Answer : 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-### Question : Component event and application event difference
+## Question : Component event and application event difference
 #### Answer : 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-### Question : What is LDS(Lightning Data Services) in lwc
+## Question : What is LDS(Lightning Data Services) in lwc
 #### Answer : 
 
 https://medium.com/@saurabh.samirs/lightning-data-services-lds-in-lwc-67e9a50039d5
@@ -742,7 +742,7 @@ The base component of Lightning Data Service are</br>
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-### Question : SOQL 101 Exception
+## Question : SOQL 101 Exception
 #### Answer : 
 In Salesforce we got the System.limitException: Too many SOQL Queries 101 very often.<br/><br/>
 
@@ -772,131 +772,131 @@ As per the governor limit, the Total number of SOQL queries issued is 100 in Syn
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-### Question : Nested aura component can we have, which event will execute first
+## Question : Nested aura component can we have, which event will execute first
 #### Answer : 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-### Question : Deployment tool.. CI/CD process.. how to setup
+## Question : Deployment tool.. CI/CD process.. how to setup
 #### Answer : 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-### Question : explain one LWC component created by you.
+## Question : explain one LWC component created by you.
 #### Answer : 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-### Question : How will you get the data from Apex to LWC
+## Question : How will you get the data from Apex to LWC
 #### Answer : 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-### Question : how many ways we can query the data
+## Question : how many ways we can query the data
 #### Answer : 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-### Question : What is Wire method
+## Question : What is Wire method
 #### Answer : 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-### Question : Concept of promises in LWC ?
+## Question : Concept of promises in LWC ?
 #### Answer : 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-### Question : how to establish communication between components
+## Question : how to establish communication between components
 #### Answer : 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-### Question : Integration- breif what you have done.
+## Question : Integration- breif what you have done.
 #### Answer : 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-### Question : diff between userflow and web server flow ( connected App authorization)?
+## Question : diff between userflow and web server flow ( connected App authorization)?
 #### Answer : 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-### Question : serve side - how the authentication is happen?
+## Question : serve side - how the authentication is happen?
 #### Answer : 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-### Question : Platform event?
+## Question : Platform event?
 #### Answer : 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-### Question : Managed Package- exp
+## Question : Managed Package- exp
 #### Answer : 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-### Question : Aura - share the method with another Aura comp?
+## Question : Aura - share the method with another Aura comp?
 #### Answer : 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-### Question : styling hooks in LWC?
+## Question : styling hooks in LWC?
 #### Answer : 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-### Question : have you worked in service console.
+## Question : have you worked in service console.
 #### Answer : 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-### Question : How did you do deployment
+## Question : How did you do deployment
 #### Answer : 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-### Question : Involved in any deployment
+## Question : Involved in any deployment
 #### Answer : 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-### Question : Can we use multiple decorators for one property
+## Question : Can we use multiple decorators for one property
 #### Answer : 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-### Question : what is the need of LWC, when we are already having Aura
+## Question : what is the need of LWC, when we are already having Aura
 #### Answer : 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-### Question :  How will you overcome the governor limit
+## Question :  How will you overcome the governor limit
 #### Answer : 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-### Question : How to call from one batch class into another batch class
+## Question : How to call from one batch class into another batch class
 #### Answer : 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-### Question : Why apex callout is always asyc
+## Question : Why apex callout is always asyc
 #### Answer : 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-### Question : SECURITY_ENFORCE use in SOQL
+## Question : SECURITY_ENFORCE use in SOQL
 #### Answer : 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-### Question : Security question on Triggers
+## Question : Security question on Triggers
 #### Answer : 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-### Question : Can we pass one batch data to another batch process
+## Question : Can we pass one batch data to another batch process
 #### Answer : 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-### Question : Types of Async classes
+## Question : Types of Async classes
 #### Answer : 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-### Question : About Iterable class in Batchable
+## Question : About Iterable class in Batchable
 #### Answer : 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-### Question : PMD violations
+## Question : PMD violations
 #### Answer : 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-### Question : Devops process
+## Question : Devops process
 #### Answer : 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-### Question : Imperative apex
+## Question : Imperative apex
 #### Answer : 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-### Question : Difference between aura and LWC component
+## Question : Difference between aura and LWC component
 #### Answer : 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
