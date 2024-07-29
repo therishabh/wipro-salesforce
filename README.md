@@ -584,6 +584,32 @@ The base component of Lightning Data Service are</br>
 
 ### Question : SOQL 101 Exception
 #### Answer : 
+In Salesforce we got the System.limitException: Too many SOQL Queries 101 very often.<br/><br/>
+
+In Salesforce we can encounter the Salesforce Governor Limits **system limit exception too many soql queries 101** very often. This means we can only have up to 100 SOQL in a single context. This is a **hard** limit, which means you can’t increase it by contacting Salesforce support.<br/><br/>
+
+The following error appears when we exceed the Governors Limit.<br/>
+```
+System.LimitException: Too many SOQL queries: 101 error
+```
+<br/>
+As per the governor limit, the Total number of SOQL queries issued is 100 in Synchronous and 200 in Asynchronous context.<br/>
+
+**Let see the all other reason for SOQL 101 Error.** <br/>
+
+- Soql inside the for Loop
+- A Trigger is not bulkified.
+- Trigger is recursive
+- Multiple processes are executing at the same time and updating the same record in the same transection.<br/><br/>
+
+
+**Let see how to resolve this System.LimitException: Too many SOQL queries: 101 error.** <br/>
+
+- Avoid SOQL queries inside For Loop
+- Bulkify Apex Trigger and Recursion Handling
+- Move some business logic into @future
+- Minimize the No.of SOQLs by merging the queries
+
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
 ### Question : Nested aura component can we have, which event will execute first
