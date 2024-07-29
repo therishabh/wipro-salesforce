@@ -981,6 +981,102 @@ https://github.com/therishabh/salesforce-apex/blob/main/README.md#how-to-avoid-r
 
 ## Question : Reason for bulkification of your code
 #### Answer : 
+**Bulkification** in Salesforce refers to the practice of designing Apex code to handle multiple records efficiently in a single execution context.
+#### Reasons for Bulkification
+
+1. **Governor Limits Compliance**
+
+   Salesforce enforces various governor limits, such as limits on the number of SOQL queries, DML operations, and CPU time. Non-bulkified code can easily exceed these limits if it processes records individually. Bulkified code ensures that operations are performed in bulk, minimizing the number of SOQL queries and DML statements, and helps avoid hitting these limits.
+
+2. **Performance Optimization**
+
+   Processing records in bulk reduces the number of database operations and HTTP requests, which improves performance. 
+
+3. **Avoiding Recursive Triggers**
+
+   Bulkified code reduces the likelihood of hitting recursive triggers.
+   
+5. **Scalability**
+
+   Bulkification ensures that code can handle large volumes of data without performance degradation. For example, if you need to process 10,000 records, bulkified code can handle this efficiently by processing records in batches rather than one at a time.
+
+6. **Maintaining Data Integrity**
+
+   Bulk operations help maintain data integrity by ensuring that related records are processed together. For instance, when updating a set of records, bulk operations ensure that related updates are performed consistently, reducing the risk of partial updates or data inconsistencies.
+
+
+### Key Practices for Bulkification
+
+1. **Use Collections**
+
+   Always use collections (such as Lists, Maps, and Sets) to handle multiple records. This allows you to perform operations in bulk.
+
+   ```apex
+   // Bulk Insert Example
+   List<Account> accountsToInsert = new List<Account>();
+   for (Integer i = 0; i < 200; i++) {
+       accountsToInsert.add(new Account(Name = 'Account ' + i));
+   }
+   insert accountsToInsert;
+   ```
+
+2. **Limit SOQL Queries**
+
+   Avoid performing SOQL queries inside loops. Instead, query all needed records in a single query and use a Map to access them by ID.
+
+   ```apex
+   // Bulk Query Example
+   List<Account> accounts = [SELECT Id, Name FROM Account WHERE CreatedDate = LAST_N_DAYS:30];
+   Map<Id, Account> accountMap = new Map<Id, Account>();
+   for (Account acc : accounts) {
+       accountMap.put(acc.Id, acc);
+   }
+   
+   // Access accounts by ID from the map
+   ```
+
+3. **Bulkify Triggers**
+
+   Ensure that triggers are designed to handle multiple records at once. Use collections to process records and avoid SOQL or DML operations inside loops.
+
+   ```apex
+   trigger AccountTrigger on Account (before insert, before update) {
+       Set<Id> accountIds = new Set<Id>();
+       for (Account acc : Trigger.new) {
+           accountIds.add(acc.Id);
+       }
+
+       // Perform bulk operations
+       List<Contact> contacts = [SELECT Id, AccountId FROM Contact WHERE AccountId IN :accountIds];
+       // Process contacts
+   }
+   ```
+
+4. **Use Batch Apex for Large Data Volumes**
+
+   When dealing with very large datasets, use Batch Apex to process records in manageable chunks.
+
+   ```apex
+   global class MyBatchClass implements Database.Batchable<sObject> {
+       global Database.QueryLocator start(Database.BatchableContext BC) {
+           return Database.getQueryLocator('SELECT Id FROM Account');
+       }
+
+       global void execute(Database.BatchableContext BC, List<sObject> scope) {
+           // Bulk processing logic
+           List<Account> accountsToUpdate = new List<Account>();
+           for (Account acc : (List<Account>)scope) {
+               acc.Name = 'Updated Name';
+               accountsToUpdate.add(acc);
+           }
+           update accountsToUpdate;
+       }
+
+       global void finish(Database.BatchableContext BC) {
+           // Post-processing logic
+       }
+   }
+   ```
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
