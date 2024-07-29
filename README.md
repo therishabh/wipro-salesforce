@@ -2,6 +2,116 @@
 
 ### Question : What all asynchronous process available in salesforce.
 #### Answer : 
+Salesforce provides several asynchronous processing options to handle operations that require large volumes of data, complex processing, or tasks that should not be performed in a synchronous transaction. Here's a comprehensive list of asynchronous processes available in Salesforce:
+
+1. **Future Methods**
+2. **Batch Apex**
+3. **Scheduled Apex**
+4. **Queueable Apex**
+5. **Apex REST Callouts**
+
+### 1. Future Methods
+
+- **Use Case**: Perform long-running operations or callouts to external services without blocking the main thread.
+- **Key Points**:
+  - Methods annotated with `@future`.
+  - Limited to 50 future method calls per Apex invocation.
+  - Future methods cannot return values.
+  - Cannot be chained.
+
+#### Example
+```apex
+public class FutureMethodExample {
+    @future(callout=true)
+    public static void callExternalService() {
+        // Callout code
+    }
+}
+```
+
+### 2. Batch Apex
+
+- **Use Case**: Process large volumes of records asynchronously.
+- **Key Points**:
+  - Implement `Database.Batchable` interface.
+  - Can handle millions of records.
+  - Allows for stateful processing using `Database.Stateful`.
+
+#### Example
+```apex
+public class BatchApexExample implements Database.Batchable<SObject> {
+    public Database.QueryLocator start(Database.BatchableContext BC) {
+        return Database.getQueryLocator('SELECT Id, Name FROM Account');
+    }
+    public void execute(Database.BatchableContext BC, List<SObject> scope) {
+        // Process each batch of records
+    }
+    public void finish(Database.BatchableContext BC) {
+        // Final operations
+    }
+}
+```
+
+### 3. Scheduled Apex
+
+- **Use Case**: Schedule a batch job or other Apex code to run at specific times.
+- **Key Points**:
+  - Implement `Schedulable` interface.
+  - Use `System.schedule` to schedule the job.
+
+#### Example
+```apex
+public class ScheduledApexExample implements Schedulable {
+    public void execute(SchedulableContext SC) {
+        // Code to execute
+    }
+}
+
+// Schedule the job
+System.schedule('Job Name', '0 0 12 * * ?', new ScheduledApexExample());
+```
+
+### 4. Queueable Apex
+
+- **Use Case**: Chain jobs and perform complex operations asynchronously.
+- **Key Points**:
+  - Implement `Queueable` interface.
+  - Supports job chaining.
+  - More flexible than future methods.
+
+#### Example
+```apex
+public class QueueableApexExample implements Queueable {
+    public void execute(QueueableContext context) {
+        // Code to execute
+    }
+}
+
+// Enqueue the job
+Id jobId = System.enqueueJob(new QueueableApexExample());
+```
+
+### 5. Apex REST Callouts
+
+- **Use Case**: Make HTTP requests to external services asynchronously.
+- **Key Points**:
+  - Use `@future(callout=true)` for asynchronous callouts.
+  - Can be combined with future methods or Queueable Apex.
+
+#### Example
+```apex
+public class RestCalloutExample {
+    @future(callout=true)
+    public static void makeCallout() {
+        HttpRequest req = new HttpRequest();
+        req.setEndpoint('https://example.com/api');
+        req.setMethod('GET');
+        Http http = new Http();
+        HttpResponse res = http.send(req);
+    }
+}
+```
+
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
