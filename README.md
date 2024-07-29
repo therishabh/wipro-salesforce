@@ -257,6 +257,8 @@ Converting our returned data into JSON results in us consuming large amounts of 
 #### Answer :  
 https://www.pantherschools.com/apex-trigger-best-practices-in-salesforce/
 
+https://github.com/therishabh/salesforce-apex/blob/main/README.md#trigger
+
 As a developer, to develop effective triggers we can follow the below best practices
 - One trigger per object
 - Logic Less Trigger
