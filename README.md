@@ -25,7 +25,6 @@ Question : Named credential<br/>
 Question : Mixed DML exception<br/>
 Question : Open Id connect for integration<br/>
 Question : Calling one batch to another batch<br/>
-Question : What are context variables in triggers<br/>
 Question : Is there a way to callout triggers<br/>
 Question : About recursive triggers<br/>
 Question : Reason for bulkification of your code<br/>
@@ -516,6 +515,8 @@ global class MyBatchClass implements Database.Batchable<SObject>, Database.State
 
 Field-Level Security (FLS) determines whether a user can view or edit the data in a specific field on an object. It is a key component of Salesforce’s security model and is applied to profiles and permission sets to control access to sensitive data.
 
+https://github.com/therishabh/wipro-salesforce/blob/main/README.md#question--how-to-set-field-level-security-in-apex-with-security_enforced
+
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
 ## Question : Database stateful and stateless (Difference and senario if you faced any)
@@ -738,10 +739,79 @@ By following these steps, you can effectively pass values from a Flow to an Apex
 ## Question : Field restriction by apex
 #### Answer : 
 
+https://github.com/therishabh/salesforce-apex/blob/main/README.md#user-mode-vs-system-mode
+
+In Salesforce, Field-Level Security (FLS) is an essential component of data security, ensuring that users can only view or edit fields they have permission to access. While Field-Level Security is primarily managed through profiles and permission sets, you might need to handle field restrictions programmatically in Apex to respect these settings or implement additional security measures.
+
+#### How to Handle Field Restrictions in Apex
+
+#### 1. **Check Field-Level Security Programmatically**
+
+Before performing operations on a field, you should check if the current user has access to that field. Salesforce provides methods in the `Schema` class to check field accessibility.
+
+**Example: Checking Field Accessibility**
+
+```apex
+// Example to check if the current user has access to a field
+public class FieldSecurityUtil {
+    public static Boolean isFieldAccessible(Schema.SObjectField field) {
+        Schema.DescribeFieldResult fieldDescribe = field.getDescribe();
+        return fieldDescribe.isAccessible();
+    }
+    
+    public static Boolean isFieldEditable(Schema.SObjectField field) {
+        Schema.DescribeFieldResult fieldDescribe = field.getDescribe();
+        return fieldDescribe.isUpdateable();
+    }
+}
+```
+
+**Usage in Apex Code**
+
+```apex
+if (FieldSecurityUtil.isFieldAccessible(Account.MyField__c)) {
+    // Proceed with logic for accessible field
+    Account acc = [SELECT Id, MyField__c FROM Account LIMIT 1];
+    System.debug('Field value: ' + acc.MyField__c);
+} else {
+    System.debug('Field is not accessible.');
+}
+```
+
+#### 2. **Handle Field-Level Security in Triggers**
+
+When writing triggers, ensure that your code respects field-level permissions. For example, if your trigger updates fields, check if the fields are editable.
+
+**Example: Trigger Code**
+
+```apex
+trigger AccountTrigger on Account (before update) {
+    for (Account acc : Trigger.new) {
+        if (FieldSecurityUtil.isFieldEditable(Account.MyField__c)) {
+            // Logic to update the field if it is editable
+            acc.MyField__c = 'New Value';
+        } else {
+            // Logic for fields that are not editable
+            System.debug('Field MyField__c is not editable.');
+        }
+    }
+}
+```
+
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
 ## Question : application event in LWC
 #### Answer : 
+
+Events are used in LWC for components communication. There are typically 3 approaches for communication between the components using events.
+
+1. Parent to Child Event communication in Lightning web component
+2. Child to Parent Event Communication in Lightning Web Component
+3. Publish Subscriber model (PubSub model) in Lightning Web Component or LMS (Two components which doesn’t have a direct relation)
+
+![image](https://github.com/user-attachments/assets/cef17a11-06e7-4d2c-ba4c-005d04df6bf3)
+
+https://github.com/therishabh/salesforce-lwc?tab=readme-ov-file#parent-to-child-communication
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -754,26 +824,153 @@ https://github.com/therishabh/salesforce-lwc?tab=readme-ov-file#lifecycle-hooks
 ## Question : Named credential
 #### Answer : 
 
------------------------------------------------------------------------------------------------------------------------------------------------
+In Salesforce, a Named Credential is a configuration that allows you to securely store authentication details for external services. This feature is particularly useful for integrating with external systems or APIs, as it simplifies the management of authentication and improves security by keeping sensitive information out of the codebase.
 
-## Question : Mixed DML exception
+##### Using Named Credentials in Apex
+
+You can use Named Credentials in Apex code to make HTTP requests without hardcoding credentials. Salesforce handles authentication automatically based on the Named Credential configuration.
+
+**Example: Making an HTTP Request**
+
+```apex
+public class MyHttpClient {
+    public void callExternalService() {
+        HttpRequest req = new HttpRequest();
+        req.setEndpoint('callout:My_Named_Credential/some/resource');
+        req.setMethod('GET');
+        
+        Http http = new Http();
+        HttpResponse res = http.send(req);
+        
+        if (res.getStatusCode() == 200) {
+            // Process response
+            System.debug(res.getBody());
+        } else {
+            // Handle error
+            System.debug('Error: ' + res.getStatusCode() + ' ' + res.getStatus());
+        }
+    }
+}
+```
+
+In this example, `callout:My_Named_Credential` refers to the Named Credential you configured, and Salesforce automatically handles the authentication.
+
+Named Credentials in Salesforce are a powerful feature for securely managing authentication details when integrating with external services. They simplify the process of making secure HTTP requests and managing credentials, enhancing both security and maintainability of your integration solutions.
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
 ## Question : Open Id connect for integration
 #### Answer : 
+
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
 ## Question : Calling one batch to another batch
 #### Answer : 
------------------------------------------------------------------------------------------------------------------------------------------------
+https://www.emizentech.com/blog/call-batch-apex-from-another-batch-apex.html
 
-## Question : What are context variables in triggers
-#### Answer : 
+https://github.com/therishabh/salesforce-apex/blob/main/README.md#batch-apex
+
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
 ## Question : Is there a way to callout triggers
 #### Answer : 
+In Salesforce, "callout triggers" typically refers to making HTTP callouts from triggers, but it’s important to note that Salesforce does not support direct HTTP callouts from triggers due to governor limits and best practices. 
+
+Here’s how you can indirectly achieve callouts from triggers using asynchronous methods:
+
+#### Indirect Callouts from Triggers
+
+#### 1. **Using Queueable Apex**
+
+Queueable Apex allows you to perform asynchronous operations, including HTTP callouts. You can call a Queueable Apex class from a trigger to handle the callout.
+
+**Steps to Use Queueable Apex for Callouts**
+
+1. **Create the Queueable Apex Class**
+
+   This class will perform the HTTP callout.
+
+   ```apex
+   public class CalloutQueueable implements Queueable {
+       public void execute(QueueableContext context) {
+           HttpRequest req = new HttpRequest();
+           req.setEndpoint('https://api.example.com/resource');
+           req.setMethod('GET');
+           req.setHeader('Content-Type', 'application/json');
+           
+           Http http = new Http();
+           HttpResponse res = http.send(req);
+           
+           if (res.getStatusCode() == 200) {
+               // Process response
+               System.debug(res.getBody());
+           } else {
+               // Handle error
+               System.debug('Error: ' + res.getStatusCode() + ' ' + res.getStatus());
+           }
+       }
+   }
+   ```
+
+2. **Call the Queueable Apex Class from the Trigger**
+
+   In your trigger, you can enqueue the Queueable job.
+
+   ```apex
+   trigger AccountTrigger on Account (after insert) {
+       if (Trigger.isAfter && Trigger.isInsert) {
+           // Call Queueable Apex to perform callout
+           System.enqueueJob(new CalloutQueueable());
+       }
+   }
+   ```
+
+#### 2. **Using Future Methods**
+
+Future methods also allow asynchronous processing but are less flexible than Queueable Apex. They can be used for simple asynchronous operations and are limited in their ability to chain or handle complex scenarios.
+
+**Steps to Use Future Methods for Callouts**
+
+1. **Create a Future Method**
+
+   Define a method in a class marked with `@future` to perform the callout.
+
+   ```apex
+   public class CalloutFuture {
+       @future(callout=true)
+       public static void makeCallout() {
+           HttpRequest req = new HttpRequest();
+           req.setEndpoint('https://api.example.com/resource');
+           req.setMethod('GET');
+           req.setHeader('Content-Type', 'application/json');
+           
+           Http http = new Http();
+           HttpResponse res = http.send(req);
+           
+           if (res.getStatusCode() == 200) {
+               // Process response
+               System.debug(res.getBody());
+           } else {
+               // Handle error
+               System.debug('Error: ' + res.getStatusCode() + ' ' + res.getStatus());
+           }
+       }
+   }
+   ```
+
+2. **Call the Future Method from the Trigger**
+
+   Invoke the future method from your trigger.
+
+   ```apex
+   trigger AccountTrigger on Account (after insert) {
+       if (Trigger.isAfter && Trigger.isInsert) {
+           // Call Future Method to perform callout
+           CalloutFuture.makeCallout();
+       }
+   }
+   ```
+
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
 ## Question : About recursive triggers
@@ -782,10 +979,7 @@ https://github.com/therishabh/salesforce-lwc?tab=readme-ov-file#lifecycle-hooks
 
 ## Question : Reason for bulkification of your code
 #### Answer : 
------------------------------------------------------------------------------------------------------------------------------------------------
 
-## Question : Field level permission thru org level
-#### Answer : 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
 ## Question : Database operation and syntax
