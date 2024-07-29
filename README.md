@@ -1,5 +1,81 @@
 # Wipro Salesforce interview Questions
 
+### Summary
+Question : What all asynchronous process available in salesforce.<br/>
+Question : Explain batch processing<br/>
+Question : Best Practices follwed for apex<br/>
+Question : Best practices follwed for triggeres.<br/>
+Question : How to connect two systems (Integartion related questions- Connected app,named credentials)<br/>
+Question : Different types of flows.<br/>
+Question : What is the maximum number of records that can be processed by a trigger?<br/>
+Question : Context variables in triggers<br/>
+Question : Types of Events in AURA<br/>
+Question : Future method and Quable methods (Limitation, which senario you will go for future menthod)<br/>
+Question : How to set field level security in Apex (WITH SECURITY_ENFORCED)?<br/>
+Question : Best Practices for flows (Avoid hard code values, mixed DMLs, Avoid DML statements inside Loop, Error handling etc).<br/>
+Question : Mixed DML exception(Future method)<br/>
+Question : Schedulable classes: can we do callouts directly from schedulable class or not.<br/>
+Question : Imaging you are processing a batch fo 50000 and you have to seprate the process sucessful and failed record, how you will achieve it.<br/>
+Question : Questions related to field level security.<br/>
+Question : Database stateful and stateless (Difference and senario if you faced any)<br/>
+Question : How to pass the values from flow to Apex.<br/>
+Question : Field restriction by apex<br/>
+Question : application event in LWC<br/>
+Question : life cycle of LWC<br/>
+Question : Named credential<br/>
+Question : Mixed DML exception<br/>
+Question : Open Id connect for integration<br/>
+Question : Calling one batch to another batch<br/>
+Question : What are context variables in triggers<br/>
+Question : Is there a way to callout triggers<br/>
+Question : About recursive triggers<br/>
+Question : Reason for bulkification of your code<br/>
+Question : Field level permission thru org level<br/>
+Question : Database operation and syntax<br/>
+Question : What are public component in LWC<br/>
+Question : Types of decorators in LWC<br/>
+Question : Difference between, trigger.old and Trigger.oldmap<br/>
+Question : Not using @future annotation in webservices callout, what will happen<br/>
+Question : How can you implement recursive trigger in salesforce<br/>
+Question : Composite request<br/>
+Question : Component event and application event difference<br/>
+Question : What is LDS(Lightning Data Services) in lwc<br/>
+Question : SOQL 101 Exception<br/>
+Question : Nested aura component can we have, which event will execute first<br/>
+Question : Deployment tool.. CI/CD process.. how to setup<br/>
+Question : explain one LWC component created by you.<br/>
+Question : How will you get the data from Apex to LWC<br/>
+Question : how many ways we can query the data<br/>
+Question : What is Wire method<br/>
+Question : Concept of promises in LWC ?<br/>
+Question : how to establish communication between components<br/>
+Question : Integration- breif what you have done.<br/>
+Question : diff between userflow and web server flow ( connected App authorization)?<br/>
+Question : serve side - how the authentication is happen?<br/>
+Question : Platform event?<br/>
+Question : Managed Package- exp<br/>
+Question : Aura - share the method with another Aura comp?<br/>
+Question : styling hooks in LWC?<br/>
+Question : have you worked in service console.<br/>
+Question : How did you do deployment<br/>
+Question : Involved in any deployment<br/>
+Question : Can we use multiple decorators for one property<br/>
+Question : what is the need of LWC, when we are already having Aura<br/>
+Question : How will you overcome the governor limit<br/>
+Question : How to call from one batch class into another batch class<br/>
+Question : Why apex callout is always asyc<br/>
+Question : SECURITY_ENFORCE use in SOQL<br/>
+Question : Security question on Triggers<br/>
+Question : Can we pass one batch data to another batch process<br/>
+Question : Types of Async classes<br/>
+Question : About Iterable class in Batchable<br/>
+Question : PMD violations<br/>
+Question : Devops process<br/>
+Question : Imperative apex<br/>
+Question : Difference between aura and LWC component<br/>
+
+
+
 ## Question : What all asynchronous process available in salesforce.
 #### Answer : 
 Salesforce provides several asynchronous processing options to handle operations that require large volumes of data, complex processing, or tasks that should not be performed in a synchronous transaction. Here's a comprehensive list of asynchronous processes available in Salesforce:
