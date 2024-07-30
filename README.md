@@ -1457,28 +1457,132 @@ As per the governor limit, the Total number of SOQL queries issued is 100 in Syn
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-## Question : Nested aura component can we have, which event will execute first
-#### Answer : 
------------------------------------------------------------------------------------------------------------------------------------------------
-
-## Question : Deployment tool.. CI/CD process.. how to setup
-#### Answer : 
------------------------------------------------------------------------------------------------------------------------------------------------
-
-## Question : explain one LWC component created by you.
-#### Answer : 
------------------------------------------------------------------------------------------------------------------------------------------------
-
 ## Question : How will you get the data from Apex to LWC
 #### Answer : 
------------------------------------------------------------------------------------------------------------------------------------------------
+To get data from Apex to Lightning Web Components (LWC), you generally use the `@wire` decorator or imperative Apex calls. Here’s a brief overview of each method:
 
-## Question : how many ways we can query the data
-#### Answer : 
+### 1. **Using `@wire` Decorator**
+
+The `@wire` decorator is used for reactive data binding. It automatically handles data retrieval and refreshes the component when the data changes.
+
+#### Steps:
+
+1. **Create an Apex Method**
+
+   Define an Apex method in a class with `@AuraEnabled` annotation. Ensure the method is `public` and `static`.
+
+   ```apex
+   public with sharing class AccountController {
+       @AuraEnabled(cacheable=true)
+       public static List<Account> getAccounts() {
+           return [SELECT Id, Name FROM Account LIMIT 10];
+       }
+   }
+   ```
+
+2. **Use `@wire` in LWC**
+
+   Import the Apex method and use the `@wire` decorator to call it in your LWC.
+
+   **HTML (myComponent.html):**
+
+   ```html
+   <template>
+       <template if:true={accounts.data}>
+           <ul>
+               <template for:each={accounts.data} for:item="account">
+                   <li key={account.Id}>{account.Name}</li>
+               </template>
+           </ul>
+       </template>
+       <template if:true={accounts.error}>
+           <p>Error: {accounts.error.message}</p>
+       </template>
+   </template>
+   ```
+
+   **JavaScript (myComponent.js):**
+
+   ```js
+   import { LightningElement, wire } from 'lwc';
+   import getAccounts from '@salesforce/apex/AccountController.getAccounts';
+
+   export default class MyComponent extends LightningElement {
+       @wire(getAccounts) accounts;
+   }
+   ```
+
+   Here, `accounts.data` contains the retrieved data, and `accounts.error` will handle any errors.
+
+### 2. **Using Imperative Apex Calls**
+
+Imperative Apex calls are used when you need more control over when and how data is fetched. This method is useful for scenarios where the data retrieval is not reactive or is based on user actions.
+
+#### Steps:
+
+1. **Create an Apex Method**
+
+   Same as above, define an Apex method with `@AuraEnabled`.
+
+2. **Call Apex Imperatively in LWC**
+
+   **HTML (myComponent.html):**
+
+   ```html
+   <template>
+       <lightning-button label="Get Accounts" onclick={handleGetAccounts}></lightning-button>
+       <template if:true={accounts}>
+           <ul>
+               <template for:each={accounts} for:item="account">
+                   <li key={account.Id}>{account.Name}</li>
+               </template>
+           </ul>
+       </template>
+       <template if:true={error}>
+           <p>Error: {error.message}</p>
+       </template>
+   </template>
+   ```
+
+   **JavaScript (myComponent.js):**
+
+   ```js
+   import { LightningElement, track } from 'lwc';
+   import getAccounts from '@salesforce/apex/AccountController.getAccounts';
+
+   export default class MyComponent extends LightningElement {
+       @track accounts;
+       @track error;
+
+       handleGetAccounts() {
+           getAccounts()
+               .then(result => {
+                   this.accounts = result;
+                   this.error = undefined;
+               })
+               .catch(error => {
+                   this.error = error;
+                   this.accounts = undefined;
+               });
+       }
+   }
+   ```
+
+   In this example, `handleGetAccounts` is called when a button is clicked, fetching the data imperatively and updating the component state.
+
+### Summary
+
+- **`@wire` Decorator**: Use for reactive data binding. Automatically fetches and updates data when the data source changes.
+- **Imperative Apex Calls**: Use for more control over data fetching, typically in response to user actions or specific events.
+
+Both methods are effective for retrieving data from Apex to LWC, and the choice between them depends on the specific requirements of your component.
+
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
 ## Question : What is Wire method
 #### Answer : 
+https://github.com/therishabh/salesforce-lwc?tab=readme-ov-file#wire-service
+
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
 ## Question : Concept of promises in LWC ?
@@ -1660,64 +1764,302 @@ By leveraging Promises effectively, you can manage asynchronous operations in yo
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-## Question : how to establish communication between components
-#### Answer : 
------------------------------------------------------------------------------------------------------------------------------------------------
-
-## Question : Integration - breif what you have done.
-#### Answer : 
------------------------------------------------------------------------------------------------------------------------------------------------
-
 ## Question : diff between userflow and web server flow ( connected App authorization)?
 #### Answer : 
------------------------------------------------------------------------------------------------------------------------------------------------
 
-## Question : serve side - how the authentication is happen?
-#### Answer : 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
 ## Question : Platform event?
 #### Answer : 
+https://github.com/therishabh/salesforce-apex/blob/main/README.md#platform-event
+
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
 ## Question : Managed Package- exp
 #### Answer : 
------------------------------------------------------------------------------------------------------------------------------------------------
 
-## Question : Aura - share the method with another Aura comp?
-#### Answer : 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
 ## Question : styling hooks in LWC?
 #### Answer : 
+In Lightning Web Components (LWC), styling is managed using CSS. The framework provides several methods to style your components, including the use of CSS custom properties, shadow DOM styling, and global styles. While there isn't a direct concept called "styling hooks" like in some other frameworks, you can leverage various techniques to effectively style your components.
+
+### 1. **Component-Level Styling**
+
+Each LWC component has its own scoped CSS file. Styles defined in a component’s CSS file only apply to that component, thanks to Shadow DOM encapsulation.
+
+#### Example
+
+**HTML (myComponent.html):**
+
+```html
+<template>
+    <div class="my-class">Styled Text</div>
+</template>
+```
+
+**CSS (myComponent.css):**
+
+```css
+.my-class {
+    color: blue;
+    font-size: 16px;
+}
+```
+
+### 2. **CSS Custom Properties (Variables)**
+
+You can use CSS custom properties to define variables that can be used across components. These can be defined in a global CSS file and used in component CSS files.
+
+#### Example
+
+**Global CSS (styles.css):**
+
+```css
+:root {
+    --primary-color: #3498db;
+}
+
+.my-class {
+    color: var(--primary-color);
+}
+```
+
+**Component CSS (myComponent.css):**
+
+```css
+.my-class {
+    background-color: var(--primary-color);
+}
+```
+
+### 3. **Scoped CSS Variables**
+
+Scoped CSS variables are defined within a component and can be used within that component’s stylesheet.
+
+#### Example
+
+**Component CSS (myComponent.css):**
+
+```css
+:host {
+    --component-background: #f0f0f0;
+}
+
+.my-class {
+    background-color: var(--component-background);
+}
+```
+
+### 4. **Global Styles**
+
+Global styles are applied to the entire Lightning Experience. You can use them to define shared styles across multiple components. This is typically done in a `styles.css` file in your Salesforce org or using static resources.
+
+#### Example
+
+**Static Resource (globalStyles.css):**
+
+```css
+.my-global-class {
+    font-family: Arial, sans-serif;
+}
+```
+
+**Using Global Styles in Component:**
+
+```html
+<template>
+    <div class="my-global-class">Global Styled Text</div>
+</template>
+```
+
+### 5. **Dynamic Styling**
+
+For dynamic styling, you can use JavaScript to add or remove CSS classes based on conditions.
+
+#### Example
+
+**HTML (myComponent.html):**
+
+```html
+<template>
+    <div class={dynamicClass}>Dynamic Styled Text</div>
+</template>
+```
+
+**JavaScript (myComponent.js):**
+
+```js
+import { LightningElement, api } from 'lwc';
+
+export default class MyComponent extends LightningElement {
+    @api isHighlighted = false;
+
+    get dynamicClass() {
+        return this.isHighlighted ? 'highlight' : 'normal';
+    }
+}
+```
+
+**CSS (myComponent.css):**
+
+```css
+.highlight {
+    background-color: yellow;
+}
+
+.normal {
+    background-color: white;
+}
+```
+
+### 6. **Styling Within Shadow DOM**
+
+LWC uses Shadow DOM to encapsulate component styles, meaning styles do not bleed through to or from other components. However, you can still apply styles within the component’s shadow DOM.
+
+#### Example
+
+**Component CSS (myComponent.css):**
+
+```css
+:host {
+    display: block;
+    padding: 10px;
+}
+
+h1 {
+    color: green;
+}
+```
+
+### Summary
+
+While LWC doesn't have specific "styling hooks," you can style components effectively using:
+- **Component-Level Styling**: Scoped CSS files.
+- **CSS Custom Properties**: For reusable variables.
+- **Scoped CSS Variables**: Within components.
+- **Global Styles**: For consistent styling across components.
+- **Dynamic Styling**: Using JavaScript for condition-based styles.
+- **Shadow DOM**: Encapsulation ensures styles are contained within the component.
+
+These techniques allow you to create well-styled, maintainable Lightning Web Components.
+
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
 ## Question : have you worked in service console.
-#### Answer : 
+#### Answer : Yes
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
 ## Question : How did you do deployment
 #### Answer : 
+https://github.com/therishabh/salesforce-apex/blob/main/README.md#deployment
+
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
 ## Question : Involved in any deployment
 #### Answer : 
+https://github.com/therishabh/salesforce-apex/blob/main/README.md#deployment
+
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
 ## Question : Can we use multiple decorators for one property
 #### Answer : 
+In Lightning Web Components (LWC), you can use multiple decorators on a single property, but there are specific rules and scenarios where this is appropriate. The most common decorators in LWC are `@api`, `@track`, and `@wire`.
+
+Here's a breakdown of each decorator and their usage:
+
+### 1. **`@api` Decorator**
+
+- **Purpose**: Marks a property or method as public, making it accessible to other components.
+
+### 2. **`@track` Decorator**
+
+- **Purpose**: Makes a property reactive, meaning changes to the property will trigger a re-render of the component.
+
+### 3. **`@wire` Decorator**
+
+- **Purpose**: Connects a property or method to a Salesforce data source or an imperative Apex call.
+
+### Using Multiple Decorators
+
+You can use multiple decorators on a single property if it makes sense for the specific use case. However, they are generally used in distinct contexts, and applying them simultaneously requires understanding their combined effects.
+
+#### Example Scenarios
+
+1. **`@api` and `@track`**
+
+   If you want a property to be both exposed to parent components and reactive within the component, you can combine `@api` and `@track`.
+
+   ```js
+   import { LightningElement, api, track } from 'lwc';
+
+   export default class MyComponent extends LightningElement {
+       @api @track myProperty = 'Initial Value';
+
+       handleChange(event) {
+           this.myProperty = event.target.value; // This change will be tracked and exposed to parent components
+       }
+   }
+   ```
+
+   In this example, `myProperty` is exposed to parent components and will trigger re-renders when its value changes.
+
+2. **`@api` and `@wire`**
+
+   You typically don't use `@wire` with `@api` on the same property because `@wire` is generally used for retrieving data and `@api` is for public properties. Instead, `@wire` is often used with a method or a private property.
+
+   ```js
+   import { LightningElement, api, wire } from 'lwc';
+   import getAccount from '@salesforce/apex/AccountController.getAccount';
+
+   export default class MyComponent extends LightningElement {
+       @api accountId;
+
+       @wire(getAccount, { id: '$accountId' })
+       account;
+
+       // The account property is automatically updated with data from the wire service
+   }
+   ```
+
+   Here, `@api` exposes `accountId` to parent components, and `@wire` retrieves account data based on `accountId`.
+
+### Summary
+
+- **`@api`**: Makes properties and methods public.
+- **`@track`**: Makes properties reactive within the component.
+- **`@wire`**: Connects properties or methods to Salesforce data sources.
+
+You can use `@api` and `@track` together if you need a property to be public and reactive. However, combining `@api` with `@wire` directly on the same property is uncommon and typically not required because `@wire` handles data binding and reactivity on its own.
+
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
 ## Question : what is the need of LWC, when we are already having Aura
 #### Answer : 
+**Lightning Web Components (LWC)** is preferred over Aura for the following reasons:
+
+1. **Modern Standards**: LWC uses modern web standards (like Web Components and ES6+), making it more efficient and familiar to web developers.
+2. **Performance**: LWC has better performance due to its lightweight nature and efficient rendering.
+3. **Simplified Development**: LWC offers a simpler development model with standard HTML, CSS, and JavaScript.
+4. **Encapsulation**: LWC uses Shadow DOM for better style and script encapsulation.
+5. **Reactivity**: LWC provides a reactive data-binding model for easier state management.
+6. **Tooling**: LWC integrates well with modern development tools and practices.
+
+Aura is still used for existing components and applications but LWC is encouraged for new development due to its advantages.
+
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
 ## Question :  How will you overcome the governor limit
 #### Answer : 
------------------------------------------------------------------------------------------------------------------------------------------------
+To overcome Salesforce governor limits:
+- Use **Batch Apex**, **Queueable Apex**, **Future Methods**, and **Scheduled Apex** for asynchronous processing.
+- Optimize use of **collections** and avoid SOQL and DML in loops.
+- **Efficiently query** data and use the **Limits class** to monitor governor limits.
+- Utilize **Custom Settings** and **Custom Metadata** to reduce repetitive queries.
+- Optimize **trigger code** and follow best practices for bulk processing.
 
-## Question : How to call from one batch class into another batch class
-#### Answer : 
+By applying these strategies, you can manage and work around Salesforce governor limits effectively.
+
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
 ## Question : Why apex callout is always asyc
