@@ -15,8 +15,8 @@
 [Question : Best Practices for flows (Avoid hard code values, mixed DMLs, Avoid DML statements insiLoop, Error handling etc).](#question--best-practices-for-flows-(avoid-hard-code-values,-mixed-dmls,-avoid-dml-statements-inside-loop,-error-handling-etc).)", </br>
 [Question : Mixed DML exception(Future method)](#question--mixed-dml-exception(future-method))</br>
 [Question : Schedulable classes: can we do callouts directly from schedulable class or no(#question--schedulable-classes:-can-we-do-callouts-directly-from-schedulable-class-or-not.)", </br>
-[Question : Imaging you are processing a batch fo 50000 and you have to seprate the process sucessfand failed record, how you will achieve it.](#question--imaging-you-are-processing-a-batch-fo-50000-and-you-have-to-seprate-the-process-sucessful-and-failed-record,-how-you-will-achieve-it.)", </br>
-[Question : Questions related to field level security](#question--questions-related-to-field-level-security)", </br>
+[Question : Imaging you are processing a batch fo 50000 and you have to seprate the process sucessfand failed record, how you will achieve it.](#question--imaging-you-are-processing-a-batch-fo-50000-and-you-have-to-seprate-the-process-sucessful-and-failed-record,-how-you-will-achieve-it) </br>
+[Question : Questions related to field level security](#question--questions-related-to-field-level-security) </br>
 [Question : Database stateful and stateless (Difference and senario if you faced an(#question--database-stateful-and-stateless-(difference-and-senario-if-you-faced-any))", </br>
 [Question : How to pass the values from flow to Apex](#question--how-to-pass-the-values-from-flow-to-apex.)", </br>
 [Question : Field restriction by apex](#question--field-restriction-by-apex)</br>
