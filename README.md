@@ -70,7 +70,7 @@
 [Question : PMD violations](#question--pmd-violations) </br>
 [Question : Devops process](#question--devops-process) </br>
 [Question : Imperative apex](#question--imperative-apex) </br>
-[Question : Difference between aura and LWC compone(#question--difference-between-aura-and-lwc-component) </br>
+[Question : Difference between aura and LWC component](#question--difference-between-aura-and-lwc-component) </br>
 [Question : Types of Events in AURA](#question--types-of-events-in-aura) </br>
 
 
