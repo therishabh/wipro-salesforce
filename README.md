@@ -37,7 +37,7 @@
 [Question : How can you implement recursive trigger in salesforce](#question--how-can-you-implement-recursive-trigger-in-salesforce)", </br>
 [Question : Composite request](#question--composite-request)</br>
 [Question : Component event and application event difference](#question--component-event-and-application-event-difference)", </br>
-[Question : What is LDS(Lightning Data Services) in lwc](#question--what-is-lds(lightning-data-servic-in-lwc)", </br>
+[Question : What is LDS (Lightning Data Services) in lwc](#question--what-is-ldslightning-data-services-in-lwc)", </br>
 [Question : SOQL 101 Exception](#question--soql-101-exception)</br>
 [Question : Nested aura component can we have, which event will execute first](#question--nested-aura-component-can-we-have,-which-event-will-execute-first)", </br>
 [Question : Deployment tool.. CI/CD process.. how to setup](#question--deployment-tool..-ci/cd-proces-how-to-setup)", </br>
