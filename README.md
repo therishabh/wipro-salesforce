@@ -79,6 +79,7 @@
 
 
 
+
 ## Question : What all asynchronous process available in salesforce.
 #### Answer : 
 Salesforce provides several asynchronous processing options to handle operations that require large volumes of data, complex processing, or tasks that should not be performed in a synchronous transaction. Here's a comprehensive list of asynchronous processes available in Salesforce:
