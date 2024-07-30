@@ -1722,38 +1722,342 @@ By leveraging Promises effectively, you can manage asynchronous operations in yo
 
 ## Question : Why apex callout is always asyc
 #### Answer : 
+In Salesforce, Apex callouts are always asynchronous because of how Salesforce is designed to work efficiently for many users at the same time. Here’s a simple explanation:
+
+1. **Shared Resources**: Salesforce servers are shared by many customers. If one customer makes a long call to an external system and waits for the response, it can slow down the system for everyone else. Asynchronous callouts help avoid this problem by not making anyone wait.
+
+2. **Avoiding Delays**: Callouts to external systems can take a long time. If the system had to wait for these callouts to finish, it would slow down everything else. By making callouts asynchronous, Salesforce allows other tasks to continue while waiting for the external response.
+
+3. **Limits on Processing Time**: Salesforce has rules to prevent any single operation from taking too long (usually no more than 10 seconds). If a callout took longer than this, it could cause errors. Asynchronous callouts help stay within these time limits.
+
+4. **Better User Experience**: Users can keep using Salesforce without delays. When callouts are done in the background, users don’t have to wait for them to finish before doing other tasks.
+
+### Example
+
+Think of it like this: If you call a friend for help and have to wait on hold for a long time, you can’t do anything else until they answer. Instead, you send them a message (asynchronous) and continue with your tasks. When they reply, you can read the message and act on it without having wasted time waiting.
+
+### How to Use Asynchronous Callouts
+
+Here’s a simple example using an @future method, which is a way to tell Salesforce to do something in the background:
+
+```apex
+public class CalloutExample {
+    @future(callout=true)
+    public static void makeCallout() {
+        Http http = new Http();
+        HttpRequest request = new HttpRequest();
+        request.setEndpoint('https://api.example.com/data');
+        request.setMethod('GET');
+        
+        try {
+            HttpResponse response = http.send(request);
+            if (response.getStatusCode() == 200) {
+                // Process the response
+                System.debug(response.getBody());
+            } else {
+                System.debug('Callout failed with status: ' + response.getStatusCode());
+            }
+        } catch (Exception e) {
+            System.debug('Callout failed: ' + e.getMessage());
+        }
+    }
+}
+```
+
+In this example, the `makeCallout` method will run in the background, allowing other tasks to continue without waiting for the external call to finish.
+
+In summary, asynchronous callouts help Salesforce work smoothly and efficiently for everyone by handling external communications in the background.
+
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
 ## Question : SECURITY_ENFORCE use in SOQL
 #### Answer : 
+In Salesforce Apex, the `WITH SECURITY_ENFORCED` clause is used in SOQL queries to ensure that the query respects the user's field-level security (FLS) and object-level security (OLS) settings. This means that the query will only return fields and objects that the user has permission to access. This feature enhances security by preventing unauthorized access to sensitive data.
+
+Here’s an example of how to use `WITH SECURITY_ENFORCED` in a SOQL query:
+
+### Example: Basic Usage
+
+```apex
+public List<Account> getAccounts() {
+    try {
+        List<Account> accounts = [
+            SELECT Id, Name, Phone, Industry 
+            FROM Account 
+            WITH SECURITY_ENFORCED
+        ];
+        return accounts;
+    } catch (Exception e) {
+        System.debug('Exception: ' + e.getMessage());
+        return null;
+    }
+}
+```
+
+### Example: Handling Security Exceptions
+
+When using `WITH SECURITY_ENFORCED`, if the user doesn't have access to the fields or objects specified in the query, a `QueryException` will be thrown. You should handle this exception appropriately:
+
+```apex
+public List<Account> getAccounts() {
+    try {
+        List<Account> accounts = [
+            SELECT Id, Name, Phone, Industry 
+            FROM Account 
+            WITH SECURITY_ENFORCED
+        ];
+        return accounts;
+    } catch (QueryException qe) {
+        System.debug('Query Exception: ' + qe.getMessage());
+        // Handle lack of permissions
+        return null;
+    } catch (Exception e) {
+        System.debug('General Exception: ' + e.getMessage());
+        return null;
+    }
+}
+```
+
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
 ## Question : Security question on Triggers
 #### Answer : 
------------------------------------------------------------------------------------------------------------------------------------------------
+To handle security in Apex triggers, follow these key strategies:
 
-## Question : Can we pass one batch data to another batch process
-#### Answer : 
------------------------------------------------------------------------------------------------------------------------------------------------
+1. **Field-Level and Object-Level Security (FLS and OLS)**
+   - Check if the user has access to specific fields and objects before performing operations.
+   - Example:
+     ```apex
+     if (!Schema.sObjectType.Account.isAccessible()) {
+         System.debug('Access to Account object is denied.');
+         return;
+     }
+     for (Account acc : Trigger.new) {
+         if (Schema.sObjectType.Account.fields.Name.isAccessible()) {
+             System.debug('Account Name: ' + acc.Name);
+         }
+     }
+     ```
 
-## Question : Types of Async classes
-#### Answer : 
------------------------------------------------------------------------------------------------------------------------------------------------
+2. **Use `with sharing` and `without sharing` Keywords**
+   - Use `with sharing` to enforce sharing rules and `without sharing` to bypass them in Apex classes called by triggers.
+   - Example:
+     ```apex
+     public with sharing class AccountTriggerHandler {
+         public static void handleBeforeUpdate(List<Account> newAccounts) {
+             for (Account acc : newAccounts) {
+                 System.debug('Handling Account: ' + acc.Name);
+             }
+         }
+     }
 
-## Question : About Iterable class in Batchable
-#### Answer : 
+     trigger AccountTrigger on Account (before update) {
+         AccountTriggerHandler.handleBeforeUpdate(Trigger.new);
+     }
+     ```
+
+3. **Custom Permissions**
+   - Check if the user has specific custom permissions to control feature access.
+   - Example:
+     ```apex
+     if (!FeatureManagement.checkPermission('Manage_Accounts')) {
+         System.debug('User does not have Manage Accounts permission.');
+         return;
+     }
+     ```
+
+4. **Context Awareness**
+   - Understand when your code runs in system context (ignoring user permissions) versus user context (respecting user permissions). Use `without sharing` sparingly.
+
+By using these strategies, you ensure that your triggers respect user permissions and maintain data security.
+ 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
 ## Question : PMD violations
 #### Answer : 
------------------------------------------------------------------------------------------------------------------------------------------------
+PMD (Programming Mistake Detector) can also be used to analyze Apex code, the programming language used in Salesforce. Apex PMD helps identify common programming flaws specific to Apex development. Here are some common types of PMD violations in Apex and how to fix them:
 
-## Question : Devops process
-#### Answer : 
+1. **ApexUnitTestClassShouldHaveAsserts**
+   - **Violation**: Test classes should have assertions to verify the behavior of the code.
+   - **Fix**: Add assertions to your test methods.
+
+   ```apex
+   // Before
+   @IsTest
+   private class MyTestClass {
+       @IsTest
+       static void testMethod() {
+           // Test code without assertions
+       }
+   }
+
+   // After
+   @IsTest
+   private class MyTestClass {
+       @IsTest
+       static void testMethod() {
+           // Test code
+           System.assertEquals(expectedValue, actualValue);
+       }
+   }
+   ```
+
+2. **AvoidLogicInTrigger**
+   - **Violation**: Triggers should not contain complex logic. Instead, use helper classes.
+   - **Fix**: Move the logic to a handler or helper class.
+
+   ```apex
+   // Before
+   trigger MyTrigger on Account (before insert, before update) {
+       for (Account acc : Trigger.new) {
+           if (acc.Name == 'Test') {
+               acc.Description = 'This is a test account';
+           }
+       }
+   }
+
+   // After
+   trigger MyTrigger on Account (before insert, before update) {
+       MyTriggerHandler.handleTrigger(Trigger.new);
+   }
+
+   public class MyTriggerHandler {
+       public static void handleTrigger(List<Account> accounts) {
+           for (Account acc : accounts) {
+               if (acc.Name == 'Test') {
+                   acc.Description = 'This is a test account';
+               }
+           }
+       }
+   }
+   ```
+
+3. **AvoidUnusedLocalVariables**
+   - **Violation**: Declaring variables that are not used.
+   - **Fix**: Remove the unused variables.
+
+   ```apex
+   // Before
+   public class MyClass {
+       public void myMethod() {
+           Integer unusedVar = 10;
+           // Some code
+       }
+   }
+
+   // After
+   public class MyClass {
+       public void myMethod() {
+           // Some code
+       }
+   }
+   ```
+
+4. **AvoidSoqlInLoops**
+   - **Violation**: Performing SOQL queries inside loops can cause governor limits to be exceeded.
+   - **Fix**: Move the SOQL query outside the loop.
+
+   ```apex
+   // Before
+   public class MyClass {
+       public void myMethod(List<Id> accountIds) {
+           for (Id accId : accountIds) {
+               Account acc = [SELECT Name FROM Account WHERE Id = :accId];
+               // Some code
+           }
+       }
+   }
+
+   // After
+   public class MyClass {
+       public void myMethod(List<Id> accountIds) {
+           Map<Id, Account> accounts = new Map<Id, Account>([SELECT Name FROM Account WHERE Id IN :accountIds]);
+           for (Id accId : accountIds) {
+               Account acc = accounts.get(accId);
+               // Some code
+           }
+       }
+   }
+   ```
+
+5. **CyclomaticComplexity**
+   - **Violation**: Methods that are too complex.
+   - **Fix**: Refactor the method to reduce complexity.
+
+   ```apex
+   // Before
+   public class MyClass {
+       public void complexMethod() {
+           if (condition1) {
+               // Some code
+           } else if (condition2) {
+               // Some code
+           } else {
+               // Some code
+           }
+       }
+   }
+
+   // After
+   public class MyClass {
+       public void complexMethod() {
+           if (condition1) {
+               handleCondition1();
+           } else if (condition2) {
+               handleCondition2();
+           } else {
+               handleOtherConditions();
+           }
+       }
+
+       private void handleCondition1() {
+           // Some code
+       }
+
+       private void handleCondition2() {
+           // Some code
+       }
+
+       private void handleOtherConditions() {
+           // Some code
+       }
+   }
+   ```
+
+6. **ApexCRUDViolation**
+   - **Violation**: Not checking for CRUD permissions before performing DML operations.
+   - **Fix**: Use `Schema.sObjectType` methods to check for permissions.
+
+   ```apex
+   // Before
+   public class MyClass {
+       public void myMethod() {
+           Account acc = new Account(Name = 'Test');
+           insert acc;
+       }
+   }
+
+   // After
+   public class MyClass {
+       public void myMethod() {
+           if (Schema.sObjectType.Account.isCreateable()) {
+               Account acc = new Account(Name = 'Test');
+               insert acc;
+           } else {
+               // Handle lack of permissions
+           }
+       }
+   }
+   ```
+
+Fixing these PMD violations in Apex helps improve code quality, readability, performance, and ensures compliance with Salesforce best practices. Regularly running PMD on your Apex codebase is a good practice to maintain high-quality code.
+
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
 ## Question : Imperative apex
 #### Answer : 
+Imperative Apex is essential for scenarios requiring detailed control over the application's behavior, enabling developers to implement complex, custom functionality beyond the capabilities of declarative tools.
+
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
 ## Question : Difference between aura and LWC component
