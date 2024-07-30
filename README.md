@@ -2404,10 +2404,7 @@ Imperative Apex is essential for scenarios requiring detailed control over the a
 
 ## Question : Difference between aura and LWC component
 #### Answer : 
------------------------------------------------------------------------------------------------------------------------------------------------
-
-## Question : Types of Events in AURA
-#### Answer :
+![image](https://github.com/user-attachments/assets/8e826237-4b55-4942-86c2-fb9a60207e57)
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
