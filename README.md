@@ -47,7 +47,7 @@
 [Question : What is Wire method](#question--what-is-wire-method)</br>
 [Question : Concept of promises in LWC ?](#question--concept-of-promises-in-lwc-?)</br>
 [Question : how to establish communication between components](#question--how-to-establish-communication-between-components)", </br>
-[Question : Integration - breif what you have done.](#question--integration---breif-what-you-have-don", </br>
+[Question : Integration - breif what you have done.](#question--integration---breif-what-you-have-done.)", </br>
 [Question : diff between userflow and web server flow ( connected App authorization(#question--diff-between-userflow-and-web-server-flow-(-connected-app-authorization)?)", </br>
 [Question : serve side - how the authentication is happen](#question--serve-side---how-the-authentication-is-happen?)", </br>
 [Question : Platform event?](#question--platform-event?)</br>
@@ -1661,7 +1661,7 @@ By leveraging Promises effectively, you can manage asynchronous operations in yo
 #### Answer : 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-## Question : Integration- breif what you have done.
+## Question : Integration - breif what you have done.
 #### Answer : 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
