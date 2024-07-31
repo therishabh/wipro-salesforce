@@ -1231,6 +1231,8 @@ https://www.apexhours.com/decorators-in-lightning-web-component/
 
 ## Question : Not using @future annotation in webservices callout, what will happen
 #### Answer : 
+Without the annotation, the Web service callout is made from the same thread that is executing the Apex code, and no additional processing can occur until the callout is complete
+
 In Salesforce, the `@future` annotation is used to execute methods asynchronously. This can be useful for operations that need to run in the background and do not require immediate results, such as making callouts to external web services. However, if you do not use the `@future` annotation for web service callouts and instead make a synchronous callout from within the same execution context, there are several considerations and potential issues:
 
 ##### Key Points and Consequences of Not Using `@future` for Web Service Callouts
