@@ -896,7 +896,7 @@ Queueable Apex allows you to perform asynchronous operations, including HTTP cal
    This class will perform the HTTP callout.
 
    ```apex
-   public class CalloutQueueable implements Queueable {
+   public class CalloutQueueable implements Queueable, Database.AllowsCallouts {
        public void execute(QueueableContext context) {
            HttpRequest req = new HttpRequest();
            req.setEndpoint('https://api.example.com/resource');
