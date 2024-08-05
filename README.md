@@ -2410,3 +2410,114 @@ Imperative Apex is essential for scenarios requiring detailed control over the a
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
+## Question : Apex flex queue
+#### Answer : 
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+
+## Question : Custom permission
+### Answer : 
+
+--------------------------------------------------------------
+## Question : LWC component - configuration from salesforce page layout
+### Answer : 
+
+--------------------------------------------------------------
+## Question : New features in salesforce new release
+### Answer : 
+
+--------------------------------------------------------------
+## Question : Batch apex
+### Answer : 
+
+--------------------------------------------------------------
+## Question : Future and queueable apex
+### Answer : 
+
+--------------------------------------------------------------
+## Question : How to start second batch class after 15 mins to complete first batch class.
+### Answer : 
+
+--------------------------------------------------------------
+## Question : What is the difference between SOQL and Database.querylocator.
+### Answer : 
+
+--------------------------------------------------------------
+## Question : Wire vs imperative
+### Answer : 
+
+--------------------------------------------------------------
+## Question : LDS (Lightning Data Service)
+### Answer : 
+
+--------------------------------------------------------------
+## Question : Can we use DML in wire
+### Answer : 
+
+--------------------------------------------------------------
+## Question : Why we can not use DML in wire ?
+### Answer : 
+
+--------------------------------------------------------------
+## Question : Inbound  and outbound
+### Answer : 
+
+--------------------------------------------------------------
+## Question : Process for inbound integration
+### Answer : 
+
+--------------------------------------------------------------
+## Question : Record lock error in salesforce
+### Answer : 
+
+--------------------------------------------------------------
+## Question : Is wire will be user mode or system mode
+### Answer : 
+
+--------------------------------------------------------------
+
+## Question : what are types of relationships in salesforce
+### Answer : 
+
+------------------------------------------------------
+## Question : what is the difference between look up and master detail relationship
+### Answer : 
+
+------------------------------------------------------
+## Question : How to set up communication between salesforce and  third party application 
+### Answer : 
+
+------------------------------------------------------
+## Question : what is named credentials 
+### Answer : 
+
+------------------------------------------------------
+## Question : what are connected apps 
+### Answer : 
+
+------------------------------------------------------
+## Question : Questions related to inbound and outbound integration
+### Answer : 
+
+------------------------------------------------------
+## Question : what are the best practices while writing test class 
+### Answer : 
+
+------------------------------------------------------
+## Question : what is the significance of start test and stoptest
+### Answer : 
+
+------------------------------------------------------
+## Question : what are the best practices while writing triggers 
+### Answer : 
+
+------------------------------------------------------
+## Question : what is recursion in triggers and how to avoid it
+### Answer : 
+
+------------------------------------------------------
+## Question : what are asynchronous processes in salesforce
+### Answer : 
+
+------------------------------------------------------
+
