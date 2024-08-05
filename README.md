@@ -2523,4 +2523,11 @@ Imperative Apex is essential for scenarios requiring detailed control over the a
 ### Answer : 
 
 ------------------------------------------------------
+## Question : Scenario : Hands on with screen share
+There is one field - Type Large Text area on Account Object. we need to get first name of all the contacts related to that account.
+Write a trigger for above scenario.
+
+
+
+
 
