@@ -1200,3 +1200,346 @@ You should say:
 - 👉 Yes but limited flexibility
 
 ---
+
+# Q. Explain Apex Enterprise Patterns
+
+### 1. Clear Explanation (Simple & Professional)
+
+Apex Enterprise Patterns (also called **Apex Enterprise Architecture** or **FFLIB pattern**) is a **layered architecture approach** used in Salesforce to build **scalable, maintainable, testable, and reusable applications**.
+
+Instead of writing logic directly in triggers or controllers, we divide code into layers like:
+
+> 👉 **Trigger → Domain → Service → Selector → Utility**
+
+This separation ensures:
+
+* Clean code
+* Reusability
+* Easy testing
+* Better performance
+
+---
+
+### 2. Detailed Technical Explanation
+
+### 🔸 Core Layers in Apex Enterprise Pattern
+
+---
+
+### 1️⃣ Trigger Layer
+
+* One trigger per object
+* Delegates logic to domain/handler
+
+---
+
+### 2️⃣ Domain Layer (Business Object Logic)
+
+* Represents SObject behavior
+* Handles record-level logic
+* Works with trigger context
+
+---
+
+### 3️⃣ Service Layer (Business Process Logic)
+
+* Contains business workflows
+* Called from LWC, REST, Batch, Trigger
+
+---
+
+### 4️⃣ Selector Layer (Data Access Layer)
+
+* Centralized SOQL queries
+* Avoids duplicate queries
+* Improves performance
+
+---
+
+### 5️⃣ Unit of Work (UOW)
+
+* Handles DML operations in bulk
+* Ensures transaction consistency
+
+---
+
+### 6️⃣ Utility Layer
+
+* Helper classes
+* Common reusable logic
+
+---
+
+### 🔸 Benefits
+
+✔ Separation of concerns
+✔ Better testability
+✔ Easier maintenance
+✔ Bulkification support
+✔ Reusability across org
+
+---
+
+### 3. Real-Time Use Case
+
+### 🏥 Healthcare System – Patient Onboarding
+
+Process:
+
+* Patient record created
+* Validate insurance
+* Assign doctor
+* Create appointment
+
+Architecture:
+
+* Trigger → Domain (PatientDomain)
+* Domain calls Service (PatientService)
+* Service calls Selector (InsuranceSelector)
+* UOW handles DML
+
+This keeps code clean and scalable.
+
+---
+
+### 4. Code Example
+
+### 🔹 Trigger
+
+```apex id="uubjzz"
+trigger PatientTrigger on Patient__c (after insert) {
+    PatientDomain.onAfterInsert(Trigger.new);
+}
+```
+
+---
+
+### 🔹 Domain Layer
+
+```apex id="2ui4ww"
+public class PatientDomain {
+
+    public static void onAfterInsert(List<Patient__c> patients) {
+        PatientService.processPatients(patients);
+    }
+}
+```
+
+---
+
+### 🔹 Service Layer
+
+```apex id="a3m8rc"
+public class PatientService {
+
+    public static void processPatients(List<Patient__c> patients) {
+        List<Insurance__c> insList = InsuranceSelector.getInsurance(patients);
+        // Business logic
+    }
+}
+```
+
+---
+
+### 🔹 Selector Layer
+
+```apex id="t0pksd"
+public class InsuranceSelector {
+
+    public static List<Insurance__c> getInsurance(List<Patient__c> patients) {
+        return [SELECT Id, Name FROM Insurance__c WHERE Patient__c IN :patients];
+    }
+}
+```
+
+---
+
+### 5. Best Practices & Governor Limits
+
+- ✔ Bulk-safe methods
+- ✔ Use Selector for SOQL
+- ✔ Use Unit of Work for DML
+- ✔ Avoid logic in triggers
+- ✔ Write test classes for each layer
+
+---
+
+### 6. Common Mistakes to Avoid
+
+- ❌ Putting logic in trigger
+- ❌ Mixing DML + SOQL everywhere
+- ❌ Not bulkifying domain methods
+- ❌ Skipping selector layer
+- ❌ Tight coupling between classes
+
+---
+
+### 7. Interview Talking Points
+
+You should say:
+
+* I follow **Apex Enterprise Pattern (FFLIB style)**
+* I design code using:
+
+  * Trigger Layer
+  * Domain Layer
+  * Service Layer
+  * Selector Layer
+* This helps in:
+
+  * Scalability
+  * Reusability
+  * Unit testing
+* I also use **Unit of Work pattern for DML**
+
+---
+
+### 8. Follow-up Questions + Short Answers
+
+**Q: What is Unit of Work?**
+- 👉 Centralized DML management
+
+**Q: Why Selector layer?**
+- 👉 Avoid duplicate SOQL
+
+**Q: Difference between Domain & Service?**
+- 👉 Domain = object-specific logic
+- 👉 Service = process-level logic
+
+---
+
+
+# Q. When do you go with Flows and when with Triggers?
+
+---
+
+### 1. Clear Explanation
+
+Choosing between Flow and Trigger depends on:
+
+- 👉 **Complexity
+- 👉 Volume of Data
+- 👉 Maintainability
+- 👉 Performance
+- 👉 Business Ownership**
+
+* Use **Flow** for simple declarative automation
+* Use **Triggers (Apex)** for complex, high-volume, or integration-heavy logic
+
+---
+
+### 2. Detailed Technical Explanation
+
+### 🔸 Use Flow When:
+
+- ✔ Simple field updates
+- ✔ Approval routing
+- ✔ Email notifications
+- ✔ UI-based screen process
+- ✔ Admin maintainable logic
+
+---
+
+### 🔸 Use Trigger (Apex) When:
+
+- ✔ Complex business logic
+- ✔ Bulk processing (>200 records)
+- ✔ Integration callouts
+- ✔ Recursion handling
+- ✔ Transaction control
+
+---
+
+### 🔸 Hybrid Approach (Best Practice)
+
+Use:
+
+- 👉 Flow for orchestration
+- 👉 Apex for heavy logic
+
+Example:
+Flow → Calls Apex Action
+
+---
+
+### 3. Real-Time Use Case
+
+### 🛒 E-commerce Order Processing
+
+Flow handles:
+
+* Order creation
+* Email notification
+
+Trigger handles:
+
+* Inventory deduction
+* Payment validation
+* Fraud detection
+
+Because logic is complex and bulk-heavy.
+
+---
+
+### 4. Code Example (Trigger Case)
+
+```apex id="yow3ml"
+trigger OrderTrigger on Order__c (after insert) {
+    OrderService.processOrders(Trigger.new);
+}
+```
+
+---
+
+### 5. Best Practices & Governor Limits
+
+✔ Use Flow for UI and simple logic
+✔ Use Apex for bulk & complex
+✔ Avoid mixing multiple automation types unnecessarily
+✔ Monitor CPU time in Flow
+
+---
+
+### 6. Common Mistakes to Avoid
+
+❌ Using Flow for heavy batch processing
+❌ Using Trigger for simple field update
+❌ Mixing Process Builder + Flow + Trigger
+❌ Not considering performance
+
+---
+
+### 7. Interview Talking Points
+
+Say confidently:
+
+* I don’t choose randomly between Flow and Trigger
+* I evaluate:
+
+  * Data volume
+  * Complexity
+  * Maintainability
+  * Performance
+* I follow **Hybrid Architecture**:
+  - 👉 Flow for orchestration
+  - 👉 Apex for heavy processing
+
+---
+
+### 8. Follow-up Questions + Short Answers
+
+**Q: Can Flow replace Trigger?**
+- 👉 For simple use cases yes, not for complex
+
+**Q: Can Flow handle bulk data?**
+- 👉 Limited capability
+
+**Q: Which is faster?**
+- 👉 Apex Trigger
+
+**Q: Who maintains Flow vs Apex?**
+- 👉 Flow → Admin
+- 👉 Apex → Developer
+
+---
+
