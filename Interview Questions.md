@@ -334,11 +334,11 @@ public class LoanProcessorBatch implements Database.Batchable<SObject> {
 
 #### 6. Common Mistakes to Avoid
 
-❌ Using Flow for heavy batch processing
-❌ Creating multiple DML elements in loop
-❌ Not handling fault paths
-❌ Not testing with bulk data
-❌ Overusing Screen Flows for backend logic
+- ❌ Using Flow for heavy batch processing
+- ❌ Creating multiple DML elements in loop
+- ❌ Not handling fault paths
+- ❌ Not testing with bulk data
+- ❌ Overusing Screen Flows for backend logic
 
 ---
 
@@ -491,10 +491,10 @@ export default class DeliveryChecker extends LightningElement {
 
 #### 5. Best Practices & Governor Limits
 
-✔ Use Named Credentials (avoid hardcoding endpoint)
-✔ Use `@AuraEnabled(cacheable=false)` for callouts
-✔ Use try-catch in Apex
-✔ Handle timeout
+- ✔ Use Named Credentials (avoid hardcoding endpoint)
+- ✔ Use `@AuraEnabled(cacheable=false)` for callouts
+- ✔ Use try-catch in Apex
+- ✔ Handle timeout
 
 Limits:
 
@@ -505,11 +505,11 @@ Limits:
 
 #### 6. Common Mistakes to Avoid
 
-❌ Direct callout from LWC (not allowed)
-❌ Hardcoding endpoints
-❌ Not handling errors
-❌ Not using Named Credentials
-❌ Not handling JSON parsing properly
+- ❌ Direct callout from LWC (not allowed)
+- ❌ Hardcoding endpoints
+- ❌ Not handling errors
+- ❌ Not using Named Credentials
+- ❌ Not handling JSON parsing properly
 
 ---
 
