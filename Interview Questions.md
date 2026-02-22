@@ -528,16 +528,16 @@ Say:
 #### 8. Follow-up Questions + Short Answers
 
 **Q: Can LWC call external API directly?**
-👉 No
+- 👉 No
 
 **Q: How to secure API endpoint?**
-👉 Named Credential + Auth Provider
+- 👉 Named Credential + Auth Provider
 
 **Q: How to make async callout?**
-👉 Queueable / Future
+- 👉 Queueable / Future
 
 **Q: How to handle large response?**
-👉 Deserialize JSON into Apex wrapper class
+- 👉 Deserialize JSON into Apex wrapper class
 
 ---
 
