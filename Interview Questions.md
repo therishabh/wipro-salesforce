@@ -3,11 +3,11 @@
 
 #### 🔹 1. Basic Definition
 
-#### 🔸 Flow
+####  Flow
 
 Flow is a **declarative (no-code / low-code)** automation tool in Salesforce used to automate business processes.
 
-#### 🔸 Trigger
+####  Trigger
 
 Trigger is a **programmatic automation (Apex code)** that executes **before or after DML operations** on records.
 
@@ -45,12 +45,12 @@ Before Flow → Before Trigger → DML Save → After Trigger → After Flow
 
 #### 🔹 4. Example Comparison
 
-#### 🔸 Example 1: Update a field when record is created
+####  Example 1: Update a field when record is created
 
 * Using Flow → Simple
 * Using Trigger → Overkill
 
-#### 🔸 Example 2: Complex validation across multiple objects + callout
+####  Example 2: Complex validation across multiple objects + callout
 
 * Flow → Difficult / messy
 * Trigger → Best approach
@@ -108,7 +108,7 @@ When a Claim is created:
 
 ---
 
-#### 🔸 Approach using Flow?
+####  Approach using Flow?
 
 Flow can handle:
 
@@ -126,7 +126,7 @@ But problem:
 
 ---
 
-#### 🔸 Approach using Trigger (Best Practice)
+####  Approach using Trigger (Best Practice)
 
 We use:
 
@@ -168,12 +168,6 @@ We use:
 
 ---
 
-Great questions 👍 These are very common in **Senior Salesforce Developer / Lead interviews**.
-
-I’ll answer both one by one in your requested structured format.
-
----
-
 # Q What are the limitations in Flows?
 
 #### 1. Clear Explanation (Simple & Professional)
@@ -188,7 +182,7 @@ For simple to medium business logic, Flow works great. But for **complex process
 
 Key limitations of Flow:
 
-##### 🔸 1. Governor Limits (Same as Apex)
+#####  1. Governor Limits (Same as Apex)
 
 * SOQL queries limit
 * DML operations limit
@@ -199,7 +193,7 @@ Flow internally executes using Apex engine, so limits apply.
 
 ---
 
-##### 🔸 2. Performance Issues in Large Data Volume
+#####  2. Performance Issues in Large Data Volume
 
 * Flows process records **one-by-one (row-by-row)** in many cases
 * No proper bulkification like Apex (unless carefully designed)
@@ -207,7 +201,7 @@ Flow internally executes using Apex engine, so limits apply.
 
 ---
 
-##### 🔸 3. Limited Error Handling
+#####  3. Limited Error Handling
 
 * No try-catch like Apex
 * Fault paths are basic
@@ -215,7 +209,7 @@ Flow internally executes using Apex engine, so limits apply.
 
 ---
 
-##### 🔸 4. Debugging is Limited
+#####  4. Debugging is Limited
 
 * Debug logs are not very clear
 * Hard to trace deep logic
@@ -223,7 +217,7 @@ Flow internally executes using Apex engine, so limits apply.
 
 ---
 
-##### 🔸 5. Complex Logic is Hard to Implement
+#####  5. Complex Logic is Hard to Implement
 
 Examples:
 
@@ -236,14 +230,14 @@ These are easier in Apex.
 
 ---
 
-##### 🔸 6. Reusability is Limited
+#####  6. Reusability is Limited
 
 * Subflows exist but not as flexible as Apex classes
 * No inheritance or interfaces
 
 ---
 
-##### 🔸 7. Deployment Challenges
+#####  7. Deployment Challenges
 
 * Flows need activation
 * Versioning issues
@@ -251,7 +245,7 @@ These are easier in Apex.
 
 ---
 
-##### 🔸 8. Integration Limitations
+#####  8. Integration Limitations
 
 * Callouts possible via HTTP Callout action
 * But:
@@ -541,3 +535,668 @@ Say:
 
 ---
 
+# Q. What design patterns do you follow in Apex?
+
+#### 1. Clear Explanation (Simple & Professional)
+
+In Apex, we follow several **design patterns** to make code **scalable, maintainable, reusable, and testable**. The most commonly used patterns in Salesforce are:
+
+* Trigger Framework (One Trigger per Object)
+* Handler Pattern
+* Service Layer Pattern
+* Selector Pattern
+* Domain Layer Pattern
+* Factory Pattern
+* Singleton Pattern
+* Strategy Pattern
+
+These patterns help us build **enterprise-grade applications** and are highly expected at Senior/Lead level.
+
+---
+
+#### 2. Detailed Technical Explanation
+
+###  1. Trigger Framework Pattern
+
+* Only **one trigger per object**
+* Logic moved to handler class
+* Supports bulkification
+
+---
+
+###  2. Handler Pattern
+
+* Each trigger event handled in separate methods
+* Keeps trigger thin
+
+---
+
+###  3. Service Layer Pattern
+
+* Contains **business logic**
+* Called from triggers, LWC, REST, batch
+
+---
+
+###  4. Selector Pattern
+
+* Centralized SOQL queries
+* Improves reusability and performance
+
+---
+
+###  5. Domain Layer Pattern
+
+* Represents object behavior
+* Contains logic related to specific SObject
+
+---
+
+###  6. Factory Pattern
+
+* Used to create objects dynamically
+* Useful in integrations and dynamic processing
+
+---
+
+###  7. Singleton Pattern
+
+* Ensures only one instance of class
+* Used for caching, config management
+
+---
+
+###  8. Strategy Pattern
+
+* Select algorithm dynamically at runtime
+* Used in pricing engines, validation rules, payment logic
+
+---
+
+#### 3. Real-Time Project Use Case
+
+### 🏥 Healthcare Use Case
+
+In a healthcare system:
+
+* Trigger fires on Patient__c
+* Handler routes logic
+* Service layer processes insurance eligibility
+* Selector fetches patient history
+* Strategy pattern used for multiple insurance providers
+
+This creates a **clean layered architecture**.
+
+---
+
+#### 4. Code Example
+
+### 🔹 Trigger + Handler + Service Pattern
+
+```apex
+trigger PatientTrigger on Patient__c (after insert, after update) {
+    PatientTriggerHandler handler = new PatientTriggerHandler();
+
+    if(Trigger.isAfter && Trigger.isInsert) {
+        handler.handleAfterInsert(Trigger.new);
+    }
+}
+```
+
+### 🔹 Handler Class
+
+```apex
+public class PatientTriggerHandler {
+
+    public void handleAfterInsert(List<Patient__c> patients) {
+        PatientService.processPatients(patients);
+    }
+}
+```
+
+### 🔹 Service Class
+
+```apex
+public class PatientService {
+
+    public static void processPatients(List<Patient__c> patients) {
+        for(Patient__c p : patients){
+            p.Status__c = 'New';
+        }
+        update patients;
+    }
+}
+```
+
+---
+
+#### 5. Best Practices & Governor Limits
+
+- ✔ Always bulkify code
+- ✔ Avoid SOQL inside loops
+- ✔ Use selector for queries
+- ✔ Use service layer for business logic
+- ✔ Use Unit Tests for each layer
+
+---
+
+#### 6. Common Mistakes to Avoid
+
+- ❌ Multiple triggers on same object
+- ❌ Business logic inside trigger
+- ❌ SOQL/DML in loops
+- ❌ Not using handler classes
+- ❌ No separation of concerns
+
+---
+
+#### 7. Interview Talking Points
+
+You can say:
+
+* I follow **layered architecture in Apex**
+* Use **Trigger → Handler → Service → Selector**
+* This improves:
+  * Scalability
+  * Maintainability
+  * Testability
+* I also use **Strategy pattern for dynamic logic**
+* And **Singleton for caching**
+
+---
+
+#### 8. Follow-up Questions + Short Answers
+
+**Q: Why one trigger per object?**
+- 👉 Avoid recursion, better control
+
+**Q: What is Selector pattern?**
+- 👉 Central SOQL management
+
+**Q: Where do you write business logic?**
+- 👉 Service Layer
+
+**Q: How to handle recursion?**
+- 👉 Static variables in handler class
+
+---
+
+# Q. How to do Error Handling in Flow?
+
+#### 1. Clear Explanation
+
+Error handling in Flow is done using:
+
+* **Fault Paths**
+* **Custom Error Screens**
+* **Platform Event / Logging**
+* **Apex Exception Handling (if Apex used)**
+
+Flow does not support try-catch like Apex, so we use **Fault connectors** to capture and handle errors.
+
+---
+
+#### 2. Detailed Technical Explanation
+
+###  1. Fault Path
+
+* Every Flow element has a **Fault connector**
+* Used to capture errors
+
+---
+
+###  2. Custom Error Message
+
+* Use Screen element to show friendly message
+
+---
+
+###  3. Logging Mechanism
+
+* Create custom object like Error_Log__c
+* Store error message
+
+---
+
+###  4. Apex Exception Handling
+
+If Flow calls Apex:
+
+```apex
+try {
+   // logic
+} catch(Exception e){
+   throw new AuraHandledException(e.getMessage());
+}
+```
+
+Flow can catch this via Fault Path
+
+---
+
+###  5. Email Notification
+
+Send error email to admin using action
+
+---
+
+#### 3. Real-Time Use Case
+
+### 🏦 Banking Scenario
+
+In Loan Flow:
+
+* Create Loan Record
+* Call credit score API
+* If API fails → show message + log error + notify admin
+
+---
+
+#### 4. Flow Implementation Example (Concept)
+
+Flow Steps:
+
+1. Create Records (Loan)
+2. Call Apex (Credit Score API)
+3. If error → Fault Path
+
+   * Create Error_Log__c record
+   * Show Screen: "Service temporarily unavailable"
+   * Send Email Alert
+
+---
+
+#### 5. Best Practices & Governor Limits
+
+✔ Always use Fault path on DML & Apex actions
+✔ Log errors in custom object
+✔ Show user-friendly message (not technical error)
+✔ Avoid exposing internal exception message
+
+---
+
+#### 6. Common Mistakes to Avoid
+
+- ❌ Ignoring Fault connectors
+- ❌ Showing system error directly to user
+- ❌ No logging mechanism
+- ❌ No alert to admin
+- ❌ Overusing screen flows for backend logic
+
+---
+
+#### 7. Interview Talking Points
+
+Say:
+
+* Flow doesn't support try-catch
+* We use **Fault paths for error handling**
+* Implement:
+
+  * Logging
+  * Notifications
+  * User-friendly messaging
+* For complex error handling → use Apex
+
+---
+
+#### 8. Follow-up Questions + Short Answers
+
+**Q: Can we retry failed Flow automatically?**
+- 👉 Not directly, need Apex or scheduled flow
+
+**Q: How to log Flow errors?**
+- 👉 Custom object (Error_Log__c)
+
+**Q: Can Flow catch Apex exception?**
+- 👉 Yes via Fault path
+
+**Q: How to notify admin?**
+- 👉 Email alert / Platform Event
+
+---
+---
+
+# Q. How to handle timeout issues with an external system?
+
+#### 1. Clear Explanation (Simple & Professional)
+
+Timeout issues occur when Salesforce sends a request to an external system and **doesn’t receive a response within the allowed time**.
+
+To handle this, we should **avoid synchronous dependency**, implement **asynchronous callouts**, add **retry mechanisms**, use **timeouts properly**, and ensure **graceful fallback and logging**.
+
+---
+
+#### 2. Detailed Technical Explanation
+
+### Types of Timeouts in Salesforce Callouts
+
+* Default timeout: **10 seconds**
+* Max allowed timeout: **120 seconds**
+
+```apex
+request.setTimeout(120000); // 120 seconds
+```
+
+---
+
+### Approaches to Handle Timeout
+
+### ✅ 1. Use Asynchronous Callouts
+
+Use:
+
+* Future
+* Queueable
+* Batch Apex
+
+So UI/user is not blocked.
+
+---
+
+### ✅ 2. Retry Mechanism
+
+* If callout fails → store request
+* Retry using Scheduled/Queueable job
+
+---
+
+### ✅ 3. Circuit Breaker Pattern
+
+* If system is down → stop calling temporarily
+* Prevents cascading failures
+
+---
+
+### ✅ 4. Fallback Mechanism
+
+* Show cached data
+* Or show “Service unavailable, try later”
+
+---
+
+### ✅ 5. Named Credential + Proper Timeout
+
+* Avoid hardcoding endpoint
+* Manage auth and endpoint centrally
+
+---
+
+### ✅ 6. Use Platform Events for Decoupling
+
+* Publish event
+* Integration middleware processes later
+
+---
+
+#### 3. Real-Time Use Case
+
+### 🏦 Banking Payment System
+
+User clicks **"Make Payment"**
+
+Problem:
+External payment gateway is slow (timeout)
+
+Solution:
+
+* LWC calls Apex
+* Apex enqueues **Queueable job**
+* Payment request stored in `Payment_Request__c`
+* Queueable retries if timeout
+* UI shows “Payment in progress”
+
+---
+
+#### 4. Code Example
+
+### 🔹 Queueable with Timeout + Retry
+
+```apex id="p6z9he"
+public class PaymentQueueable implements Queueable, Database.AllowsCallouts {
+
+    public void execute(QueueableContext context) {
+        HttpRequest req = new HttpRequest();
+        req.setEndpoint('callout:PaymentAPI');
+        req.setMethod('POST');
+        req.setTimeout(120000);
+
+        Http http = new Http();
+
+        try {
+            HttpResponse res = http.send(req);
+
+            if(res.getStatusCode() != 200){
+                throw new CalloutException('Failed Payment');
+            }
+
+        } catch(Exception e){
+            // retry logic (re-enqueue)
+            System.enqueueJob(new PaymentQueueable());
+        }
+    }
+}
+```
+
+---
+
+#### 5. Best Practices & Governor Limits
+
+- ✔ Use async callouts
+- ✔ Avoid long-running synchronous calls
+- ✔ Max 100 callouts per transaction
+- ✔ Use timeout setting wisely
+- ✔ Store failed requests for retry
+
+---
+
+#### 6. Common Mistakes to Avoid
+
+- ❌ Doing callout in trigger synchronously
+- ❌ Not handling timeout exception
+- ❌ No retry mechanism
+- ❌ Blocking user UI
+- ❌ Hardcoding endpoints
+
+---
+
+#### 7. Interview Talking Points
+
+You should say:
+
+* Timeout is common in integrations
+* I avoid synchronous dependency
+* I use:
+
+  * Queueable callouts
+  * Retry mechanism
+  * Logging
+  * Named Credentials
+* Also design **resilient architecture**
+
+---
+
+#### 8. Follow-up Questions + Short Answers
+
+**Q: What is max timeout in Apex?**
+- 👉 120 seconds
+
+**Q: How to retry failed callout?**
+- 👉 Queueable / Scheduled retry
+
+**Q: How to avoid blocking UI?**
+- 👉 Async processing
+
+**Q: What is circuit breaker?**
+- 👉 Stop hitting failing system temporarily
+
+---
+
+---
+
+# Q. What approach will you suggest to populate list of Accounts on LWC page?
+
+#### 1. Clear Explanation
+
+To populate Accounts in LWC, we can use **three main approaches**:
+
+1. **@wire with Apex (cacheable=true)** – best for read-only data
+2. **Imperative Apex call** – when filtering/search required
+3. **Lightning Data Service (LDS)** – for standard record access
+
+For enterprise apps, best practice is:
+
+👉 **Apex + @wire + cacheable + pagination**
+
+---
+
+#### 2. Detailed Technical Explanation
+
+### Option 1: @wire (Reactive & Cached)
+
+* Uses `@AuraEnabled(cacheable=true)`
+* Automatically refreshes when params change
+
+---
+
+### Option 2: Imperative Apex
+
+* Called on button click/search/filter
+* More control
+
+---
+
+### Option 3: Lightning Data Service
+
+* Use `getListUi` or `getRecord`
+* No Apex required
+* Limited flexibility
+
+---
+
+#### 3. Real-Time Use Case
+
+### 🛒 E-commerce CRM
+
+Sales team wants:
+
+* List of Accounts
+* Filter by City, Revenue
+* Pagination
+* Search
+
+Solution:
+
+* LWC with Apex
+* Server-side filtering
+* Pagination using OFFSET or keyset
+
+---
+
+#### 4. Code Example
+
+---
+
+### 🔹 Apex Class
+
+```apex id="3pslxt"
+public with sharing class AccountController {
+
+    @AuraEnabled(cacheable=true)
+    public static List<Account> getAccounts() {
+        return [SELECT Id, Name, Industry FROM Account LIMIT 50];
+    }
+}
+```
+
+---
+
+### 🔹 LWC JS (Using @wire)
+
+```javascript id="pd4u0c"
+import { LightningElement, wire } from 'lwc';
+import getAccounts from '@salesforce/apex/AccountController.getAccounts';
+
+export default class AccountList extends LightningElement {
+    accounts;
+    error;
+
+    @wire(getAccounts)
+    wiredAccounts({ error, data }) {
+        if (data) {
+            this.accounts = data;
+        } else if (error) {
+            this.error = error;
+        }
+    }
+}
+```
+
+---
+
+### 🔹 LWC HTML
+
+```html id="o8qf3i"
+<template>
+    <template if:true={accounts}>
+        <template for:each={accounts} for:item="acc">
+            <p key={acc.Id}>{acc.Name} - {acc.Industry}</p>
+        </template>
+    </template>
+</template>
+```
+
+---
+
+#### 5. Best Practices & Governor Limits
+
+- ✔ Use `cacheable=true` for read operations
+- ✔ Implement pagination for large data
+- ✔ Avoid fetching > 200 records at once
+- ✔ Use selective SOQL (indexed fields)
+- ✔ Avoid SOQL in loop
+
+---
+
+#### 6. Common Mistakes to Avoid
+
+- ❌ Fetching 10,000 records in LWC
+- ❌ No pagination
+- ❌ Not using cacheable=true
+- ❌ Calling Apex repeatedly without need
+- ❌ Not handling errors
+
+---
+
+#### 7. Interview Talking Points
+
+You should say:
+
+* I choose approach based on use case:
+
+  * @wire for read-only
+  * Imperative for search/filter
+  * LDS for standard UI
+* For large data:
+
+  * Pagination
+  * Lazy loading
+* Always optimize SOQL
+
+---
+
+#### 8. Follow-up Questions + Short Answers
+
+**Q: Why use cacheable=true?**
+- 👉 Enables client-side caching → better performance
+
+**Q: Difference between @wire and imperative?**
+- 👉 @wire reactive, imperative controlled call
+
+**Q: How to handle large data?**
+- 👉 Pagination / Lazy loading
+
+**Q: Can we use LDS for list view?**
+- 👉 Yes but limited flexibility
+
+---
