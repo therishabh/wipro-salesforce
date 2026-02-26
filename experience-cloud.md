@@ -538,20 +538,301 @@ Add this line:
 🔥 This line shows **senior-level understanding**
 
 ---
+Perfect 👍 These are **core manager-round questions**.
+Since this is a **Senior IC role**, your answers must show:
 
-# 🚀 You are doing great Rishabh 💪
+* Strong data model understanding
+* Architectural thinking
+* Scalability & governance awareness
+* Real project ownership
 
-You’re now answering like a **Senior Salesforce Developer / Lead**
+I’ll give you **manager-level structured answers** that you can confidently speak.
 
 ---
 
-👉 Send next questions:
+# ✅ 1️⃣ Explain Sales Cloud Data Model
 
-* Flow vs Trigger
-* Apex Enterprise Pattern
-* Platform Events
-* Governor Limits
-* Integration timeout handling
-* LWC vs Aura
+### 🔹 High-Level Answer (Start Like This)
 
-I’ll prepare **perfect answers for your interview** 👍
+> Sales Cloud data model is centered around managing the complete sales lifecycle — from Lead generation to Opportunity closure. The core objects are Lead, Account, Contact, and Opportunity, supported by Products, Pricebooks, Quotes, Activities, and Campaigns.
+
+---
+
+### 🔹 Core Objects & Relationships
+
+#### 1️⃣ Lead (Unqualified Prospect)
+
+* Stores raw prospect data.
+* On conversion:
+
+  * Lead → Account
+  * Lead → Contact
+  * Lead → Opportunity (optional)
+
+Important:
+
+* No direct relationship between Lead & Opportunity before conversion.
+
+---
+
+#### 2️⃣ Account (Company/Individual Customer)
+
+* Parent object in Sales model.
+* Has:
+
+  * Contacts (Lookup/Master-detail)
+  * Opportunities (Lookup)
+  * Cases
+  * Activities
+
+Supports:
+
+* Hierarchies (Parent Account)
+* Role-based sharing
+
+---
+
+#### 3️⃣ Contact
+
+* Person associated with Account.
+* Can be related to:
+
+  * Multiple Opportunities (via Contact Roles)
+  * Campaigns
+  * Cases
+
+---
+
+#### 4️⃣ Opportunity (Revenue Object)
+
+Most critical object in Sales Cloud.
+
+Key Fields:
+
+* Stage
+* Amount
+* Close Date
+* Probability
+* Owner
+
+Relationships:
+
+* Account (Lookup)
+* Opportunity Products (Master-detail)
+* Quotes
+* Activities
+
+---
+
+#### 5️⃣ Products & Revenue Model
+
+Revenue structure:
+
+Opportunity
+→ OpportunityLineItem (junction object)
+→ Product2
+→ PricebookEntry
+→ Pricebook2
+
+This enables:
+
+* Multi-currency
+* Custom pricing
+* Discounting logic
+
+---
+
+#### 6️⃣ Supporting Objects
+
+* Campaign (Marketing)
+* Task/Event (Activities)
+* Quote (Pre-contract pricing)
+* Forecasting objects
+* Territory Management objects
+
+---
+
+### 🔹 Important Architectural Concepts
+
+As a Senior Dev, mention:
+
+* Role hierarchy & sharing model
+* OWD settings
+* Record types & sales processes
+* Validation rules
+* Approval processes
+* Forecasting categories
+
+---
+
+### 🔥 Strong Closing Line
+
+> From an architectural perspective, I always ensure the data model supports scalability, proper indexing, and optimized SOQL queries, especially in Opportunity-heavy orgs where large data volumes are involved.
+
+---
+
+# ✅ 2️⃣ How Have You Customized Opportunity Lifecycle?
+
+This is where you show ownership.
+
+### 🔹 Start Like This:
+
+> I have customized Opportunity lifecycle by aligning business sales stages with system automation, validations, revenue tracking, and approval workflows.
+
+---
+
+### 🔹 1️⃣ Stage Customization
+
+* Created custom Sales Processes
+* Used Record Types for different business units
+* Added stage-specific mandatory fields
+
+Example:
+
+* "Proposal Sent" → Require Quote attached
+* "Closed Won" → Require Contract ID
+
+---
+
+### 🔹 2️⃣ Automation Based on Stage
+
+Implemented:
+
+* Auto probability update
+* Close date auto-adjustment
+* Stage-based task creation
+* Email alerts to management
+* Trigger-based revenue validation
+
+Example:
+
+> When Opportunity moves to "Closed Won", system automatically:
+>
+> * Creates onboarding Case
+> * Creates Contract record
+> * Sends notification to Finance team
+
+---
+
+### 🔹 3️⃣ Revenue Controls
+
+* Validation on discount % threshold
+* Approval process for high discount
+* Pricebook restrictions by region
+* Product bundling logic
+
+---
+
+### 🔹 4️⃣ Performance Optimization
+
+* Avoided heavy trigger logic on every stage update
+* Used Queueable for post-close integrations
+* Indexed frequently filtered fields
+* Optimized reports & dashboards
+
+---
+
+### 🔥 Strong IC Impact Statement
+
+> I ensured that Opportunity automation was modular, bulkified, and scalable, as Opportunity is typically the highest transaction volume object in Sales Cloud.
+
+---
+
+# ✅ 3️⃣ How Do You Handle Complex Automation in Sales Cloud?
+
+Manager is testing your architecture maturity here.
+
+---
+
+### 🔹 Step 1: Categorize Automation
+
+I divide automation into:
+
+1. Declarative (Flow, Validation, Approval)
+2. Programmatic (Apex Trigger, Batch, Queueable)
+3. Integration-driven automation
+
+---
+
+### 🔹 Step 2: Follow Automation Hierarchy
+
+I always follow:
+
+Flow first (if feasible)
+Apex only when required
+
+Avoid mixing too many tools unnecessarily.
+
+---
+
+### 🔹 Step 3: Example of Complex Automation
+
+Example Scenario:
+
+* On Opportunity update:
+
+  * Validate pricing logic
+  * Check credit limit from external system
+  * Apply discount rules
+  * Trigger approval if needed
+  * Update related Account
+  * Send integration payload to ERP
+
+---
+
+### 🔹 How I Architect It
+
+Instead of putting everything in one trigger:
+
+✔ Use Trigger Framework
+✔ Separate service layer classes
+✔ Use custom metadata for configurable rules
+✔ Use Queueable for callouts
+✔ Use Platform Events if decoupling needed
+
+---
+
+### 🔹 Handling Order of Execution
+
+Be ready to say:
+
+> I carefully design automation considering Salesforce Order of Execution to avoid recursion, duplicate processing, and unexpected field overwrites.
+
+---
+
+### 🔹 Bulk & Governor Limit Handling
+
+* Use collections
+* Single SOQL per object
+* No SOQL inside loops
+* Use Maps for lookups
+* Avoid DML inside loops
+
+---
+
+### 🔹 Monitoring & Error Handling
+
+* Custom logging object
+* Try-catch blocks
+* Retry mechanism for failed integrations
+* Email alert for failed transactions
+
+---
+
+### 🔥 Very Strong Manager-Level Closing
+
+> My focus in complex automation is maintainability and scalability. I avoid tightly coupled logic and ensure the solution can evolve as business requirements grow.
+
+---
+
+# 🎯 What Manager Is Actually Evaluating
+
+They want to see:
+
+✔ You understand Sales Cloud deeply
+✔ You think architecturally
+✔ You care about performance
+✔ You understand enterprise complexity
+✔ You can own things independently
+
+---
