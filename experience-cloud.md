@@ -849,3 +849,8 @@ Answer :
 > Yes, I am a strong individual contributor. In my current role, I take ownership of features end-to-end, from requirement understanding to development, testing, and deployment.
 At the same time, I also collaborate closely with my team, review code, and help junior developers when needed.
 So I can work independently as well as contribute to the team’s success.
+
+#### 🔥 Bonus Strong Version (For Lead Role)
+If you are going for Lead position, say this:
+
+> “Yes, I am a strong individual contributor, but I also act as a technical owner for my modules, guiding the team, reviewing code, and ensuring best practices.”
